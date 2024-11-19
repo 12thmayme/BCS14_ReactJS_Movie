@@ -1,2 +1,8 @@
-# BCS14_ReactJS_Movie
-This project aims to develop a comprehensive movie ticket booking application that provides users with a seamless experience to browse movies, view showtimes, book tickets, and manage their bookings. 
+# React + Vite
+
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+
+Currently, two official plugins are available:
+
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh

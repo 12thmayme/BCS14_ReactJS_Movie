@@ -1,0 +1,120 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+// banner
+.carousel-inner {
+  letter-spacing: 2px;
+  line-height: 3px;
+
+  .carousel-item {
+    img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      opacity: 0.8;
+    }
+  }
+  .carousel-caption {
+    top: 40%;
+    left: 120px;
+    text-align: left;
+    .carousel-sub_title {
+      @include StyleText($fs-5, $primary, $fw-3);
+    }
+    .carousel_title {
+      @include StyleText($fs-9, $color-text-1, $fw-bold);
+      line-height: 75px;
+      max-width: 650px;
+      text-transform: capitalize;
+    }
+    .carousel_desc {
+      padding: 20px 0;
+      margin-bottom: 40px;
+      @include StyleText($fs-3, $color-text-1, $fw-1);
+    }
+    .carousel_button {
+      text-decoration: none;
+      padding: 20px 40px;
+      background-color: $color-text-1;
+      @include StyleText($fs-1, $color-text-4, $fw-1);
+      margin-right: 20px;
+      transition: all 0.3s linear;
+    }
+    .info {
+      &:hover {
+        background-color: $primary;
+        color: $color-text-1;
+      }
+    }
+    .ticket {
+      background-color: $primary;
+      color: $color-text-1;
+      &:hover {
+        background-color: $color-text-1;
+        color: $secondary;
+      }
+    }
+  }
+  .right {
+    top: 30%;
+    right: 120px;
+    text-align: right;
+    line-height: 20px;
+    &::before {
+      content: "";
+      width: 175px;
+      height: 5px;
+      position: absolute;
+      right: 0;
+      top: 19%;
+      background-color: $primary;
+    }
+  }
+}
+
+// event
+.event {
+  padding: 50px;
+  .event-item {
+    padding: 25px 25px 25px 50px;
+    width: 100%;
+    position: relative;
+    background-color: $secondary;
+    &_background {
+      background-image: url("https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/bg-film-01.png");
+      position: absolute;
+      top: 0;
+      left: 0;
+      @include Size(100%);
+      background-position: center right;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.15;
+    }
+
+    &_overlay {
+      background-color: rgba($secondary, 0.5);
+      position: absolute;
+      top: 0;
+      left: 0;
+      @include Size(100%);
+    }
+    &_subtitle {
+      @include StyleText($fs-1, $color-text-1, $fw-1);
+      opacity: 0.5;
+      margin-bottom: 0;
+    }
+    &_title {
+      @include StyleText($fs-6, $color-text-1, $fw-4);
+      max-width: 230px;
+    }
+    &_icon {
+      @include FlexBox(center, center);
+      @include Size(100px);
+      border-radius: 50%;
+      background-color: $primary;
+      color: $color-text-1;
+      font-size: $fs-7;
+      margin-top: 25px;
+    }
+  }
+}
