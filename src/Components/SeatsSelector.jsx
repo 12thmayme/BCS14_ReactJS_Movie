@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import '../Sass/components/__BookingForm.scss'
 
-const BookingForm = () => {
+const SeatsSelector = () => {
 
     const seatData = [
         {
@@ -277,4 +277,4 @@ const BookingForm = () => {
       );
 }
 
-export default BookingForm
+export default SeatsSelector

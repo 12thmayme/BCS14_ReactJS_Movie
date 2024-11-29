@@ -1,20 +1,24 @@
 import "../src/Sass/main.scss";
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
-import Banner from "./Components/Banner";
-import MovieCard from "./Components/MovieCard";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Detail from "./Components/Detail";
+import HomePage from "./pages/HomePage";
 import MovieList from "./Components/MovieList";
 import CinemaList from "./Components/CinemaList";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import BookingForm from "./Components/BookingForm";
 
-function App() {
+const App = () => {
   return (
-    <>
-    <BookingForm/>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/detail/:id" element={<Detail />} />
+      </Routes>
+    </Router>
+    // <MovieList/>
+    // <CinemaList/>
+  
   );
-}
+};
 
 export default App;
+

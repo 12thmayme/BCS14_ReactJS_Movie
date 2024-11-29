@@ -1,125 +1,124 @@
 @use "../helper/variables" as *;
 @use "../helper/mixin" as *;
-
 .navbar {
-  background-color: transparent;
-  position: fixed;
-  width: 100%;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  transition: background-color 0.5s linear;
-
-  &::before {
-    content: "";
-    width: 100%;
-    height: 1px;
-    background-color: $color-text-1;
-    position: absolute;
-    opacity: 0.5;
-    left: 0;
-    bottom: 0;
-  }
-  &-brand {
-    @include StyleText($fs-6, $primary, $fw-bold);
-    transition: all 0.3s linear;
-    &:hover {
-      color: $color-text-1;
-    }
-  }
-  .nav-item {
-    .nav-link {
-      padding: 20px;
-      @include StyleText($fs-3, $color-text-1, $fw-2);
-      margin-right: 20px;
-      transition: all 0.3s linear;
-    }
-    &_icon {
-      font-size: 12px;
-      transition: all 0.5s linear;
-    }
-    &:hover {
-      .nav-link {
-        color: $color-text-hover;
-      }
-      .nav-item_icon {
-        transform: rotate(-90deg);
-      }
-      .nav-list {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-    .nav-list {
-      position: absolute;
-      background-color: white;
-      opacity: 0;
-      visibility: hidden;
-      transform: translateY(-10px);
-      transition: all 0.3s linear;
-      ul {
-        padding: 10px 0;
-      }
-      li {
-        padding: 5px 50px 5px 20px;
-      }
-    }
-  }
-  .nav-right {
-    position: relative;
-    @include StyleText($fs-4, $color-text-1, $fw-2);
-    i {
-      cursor: pointer;
-    }
-  }
-  .search-popup {
+    background-color: transparent;
     position: fixed;
+    width: 100%;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     z-index: 999;
-    transform: translateY(-110%);
-    &_overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: #090d0e;
-      opacity: 0.9;
-      transition: all 0.3s linear;
-      transform: translateY(0);
-      z-index: -1;
+    transition: background-color 0.5s linear;
+    &::before {
+        content: "";
+        width: 100%;
+        height: 1px;
+        background-color: $color-text-1;
+        position: absolute;
+        opacity: 0.5;
+        left: 0;
+        bottom: 0;
     }
-    .search_submit {
-      width: 100px;
-      background-color: $primary;
-      color: $color-text-1;
-      border: none;
+    &-brand {
+        @include StyleText($fs-6, $primary, $fw-bold);
+        transition: all 0.3s linear;
+        &:hover {
+            color: $color-text-1;
+        }
     }
-  }
+    .nav-item {
+        .nav-link {
+            padding: 20px;
+            @include StyleText($fs-3, $color-text-1, $fw-2);
+            margin-right: 20px;
+            transition: all 0.3s linear;
+        }
+        &_icon {
+            font-size: 12px;
+            transition: all 0.5s linear;
+        }
+        &:hover {
+            .nav-link {
+                color: $color-text-hover;
+            }
+            .nav-item_icon {
+                transform: rotate(-90deg);
+            }
+            .nav-list {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+        .nav-list {
+            position: absolute;
+            background-color: white;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s linear;
+            ul {
+                padding: 10px 0;
+            }
+            li {
+                padding: 5px 50px 5px 20px;
+            }
+        }
+    }
+    .nav-right {
+        position: relative;
+        @include StyleText($fs-4, $color-text-1, $fw-2);
+        i {
+            cursor: pointer;
+        }
+    }
+    .search-popup {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+        transform: translateY(-110%);
+        &_overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #090d0e;
+            opacity: 0.9;
+            transition: all 0.3s linear;
+            transform: translateY(0);
+            z-index: -1;
+        }
+        .search_submit {
+            width: 100px;
+            background-color: $primary;
+            color: $color-text-1;
+            border: none;
+        }
+    }
 }
+
 .scrolled {
-  background-color: black;
-  animation: slide-down 0.5s linear forwards;
-  transition: all 0.3s linear;
+    background-color: black;
+    animation: slide-down 0.5s linear forwards;
+    transition: all 0.3s linear;
 }
 
 @keyframes slide-down {
-  0% {
-    transform: translateY(-100%);
-  }
-  25% {
-    transform: translateY(-60%);
-  }
-  50% {
-    transform: translateY(-30%);
-  }
-  100% {
-    transform: translateY(0%);
-  }
+    0% {
+        transform: translateY(-100%);
+    }
+    25% {
+        transform: translateY(-60%);
+    }
+    50% {
+        transform: translateY(-30%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
 }

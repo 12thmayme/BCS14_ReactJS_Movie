@@ -30,11 +30,11 @@ const Register = () => {
     try {
       const response = await axios.post('https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy', formData);
       if (response.data.statusCode === 200) {
-        setSuccess('Đăng ký thành công!');
+        setSuccess('Register Successfully!');
         setError('');
       }
     } catch (error) {
-      setError('Đã có lỗi xảy ra khi đăng ký.');
+      setError('There is an error!');
       setSuccess('');
     }
   };
