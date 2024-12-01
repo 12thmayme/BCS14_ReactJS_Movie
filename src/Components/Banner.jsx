@@ -34,6 +34,7 @@ const Banner = () => {
         className="carousel slide"
         data-bs-ride="carousel"
       >
+        {/* slide carousel */}
         <div className="carousel-inner">
           {banners.map((banner, index) => (
             <div
@@ -48,7 +49,27 @@ const Banner = () => {
             </div>
           ))}
         </div>
+        {/* Navigation buttons */}
+        <button
+            className="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleSlidesOnly"
+            data-bs-slide="prev"
+          >
+            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Previous</span>
+          </button>
+          <button
+            className="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleSlidesOnly"
+            data-bs-slide="next"
+          >
+            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+            <span className="visually-hidden">Next</span>
+          </button>
       </div>
+      
     </section>
   );
 };

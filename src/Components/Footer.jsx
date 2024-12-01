@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className="footer_item">
                   <div className="footer_title">
                     <a href="#">
-                      <h2 className="footer_item-title">Shoe Shop</h2>
+                      <h2 className="footer_item-title">CyberSoft</h2>
                     </a>
                   </div>
                   <div className="footer_content">

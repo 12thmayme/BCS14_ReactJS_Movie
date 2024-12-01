@@ -1,22 +1,26 @@
 @mixin StyleText($fs, $color, $fw) {
-  font-size: $fs;
-  color: $color;
-  font-weight: $fw;
+    font-size: $fs;
+    color: $color;
+    font-weight: $fw;
 }
 
 @mixin Size($width, $height: $width) {
-  width: $width;
-  height: $height;
+    width: $width;
+    height: $height;
 }
-@mixin FlexBox(
-  $start: flex-start,
-  $justify: flex-start,
-  $flex-direction: flex-direction,
-  $wrap: nowrap
-) {
-  display: flex;
-  align-items: $start;
-  justify-content: $justify;
-  flex-direction: $flex-direction;
-  flex-wrap: $wrap;
+
+@mixin FlexBox( $start: flex-start, $justify: flex-start, $flex-direction: flex-direction, $wrap: nowrap) {
+    display: flex;
+    align-items: $start;
+    justify-content: $justify;
+    flex-direction: $flex-direction;
+    flex-wrap: $wrap;
+}
+
+@mixin transition($duration: 0.3s) {
+    transition: all $duration ease;
+}
+
+@mixin box-shadow($color: rgba(0, 0, 0, 0.2)) {
+    box-shadow: 0 4px 8px $color;
 }
