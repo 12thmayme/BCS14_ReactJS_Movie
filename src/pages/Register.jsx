@@ -40,79 +40,76 @@ const Register = () => {
   };
 
   return (
-    <div className="container">
-      <h2>Đăng ký tài khoản</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
+  <div className="register-container">
+  <h2 className="register-title">Register Form</h2>
+  {error && <div className="register-alert register-alert--danger">{error}</div>}
+  {success && <div className="register-alert register-alert--success">{success}</div>}
 
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="taiKhoan" className="form-label">Tài Khoản</label>
-          <input
-            type="text"
-            className="form-control"
-            id="taiKhoan"
-            name="taiKhoan"
-            value={formData.taiKhoan}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="matKhau" className="form-label">Mật Khẩu</label>
-          <input
-            type="password"
-            className="form-control"
-            id="matKhau"
-            name="matKhau"
-            value={formData.matKhau}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="soDt" className="form-label">Số Điện Thoại</label>
-          <input
-            type="text"
-            className="form-control"
-            id="soDt"
-            name="soDt"
-            value={formData.soDt}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="hoTen" className="form-label">Họ Tên</label>
-          <input
-            type="text"
-            className="form-control"
-            id="hoTen"
-            name="hoTen"
-            value={formData.hoTen}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">Đăng ký</button>
-      </form>
+  <form className="register-form" onSubmit={handleSubmit}>
+  <div className="register-form__group">
+      <label htmlFor="email" className="register-form__label">Email</label>
+      <input
+        type="email"
+        className="register-form__input"
+        id="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        placeholder="Enter your Email"
+        required
+      />
     </div>
+
+    <div className="register-form__group">
+      <label htmlFor="matKhau" className="register-form__label">Password</label>
+      <input
+        type="password"
+        className="register-form__input"
+        id="matKhau"
+        name="matKhau"
+        value={formData.matKhau}
+        onChange={handleChange}
+        placeholder="Enter your password"
+        required
+      />
+    </div>
+
+    <div className="register-form__group">
+      <label htmlFor="soDt" className="register-form__label">Phone Number</label>
+      <input
+        type="text"
+        className="register-form__input"
+        id="soDt"
+        name="soDt"
+        value={formData.soDt}
+        onChange={handleChange}
+        placeholder="Enter your phone number"
+        required
+      />
+    </div>
+
+    <div className="register-form__group">
+      <label htmlFor="hoTen" className="register-form__label">Name</label>
+      <input
+        type="text"
+        className="register-form__input"
+        id="hoTen"
+        name="hoTen"
+        value={formData.hoTen}
+        onChange={handleChange}
+        placeholder="Enter your password"
+        required
+      />
+    </div>
+    <div className="form-group remember-me">
+          <input type="checkbox" id="remember" />
+          <label htmlFor="remember">I agree with these conditions</label>
+        </div>
+
+    <button type="submit" className="register-form__button">Register</button>
+  </form>
+</div>
+
   );
 };
 

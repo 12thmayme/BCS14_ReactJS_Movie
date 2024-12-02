@@ -1,9 +1,11 @@
 import React from 'react'
+import Detail from '../Components/Detail'
+import CinemaList from '../Components/CinemaList'
 
 const MovieDetailPage = () => {
   return (
-    <div>
-      
+    <div className='col-12'>
+      <Detail/>
     </div>
   )
 }
