@@ -1,0 +1,37 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+
+.list-film {
+  &_content {
+    background-color: rgba($color-blue-1, 0.3);
+  }
+  h2 {
+    padding: 20px;
+  }
+  &_top {
+    // background-color: #b2dafc;
+  }
+}
+
+.table {
+  --bs-table-bg: transparent;
+  @include StyleText($fs-2, $color-text-3, $fw-1);
+  border: 2px solid $color-text-1;
+
+  td {
+    color: #3d3d3d;
+    margin: 0 auto;
+  }
+  .td-name {
+    max-width: 200px;
+  }
+  .td-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 350px;
+    word-wrap: break-word;
+  }
+}

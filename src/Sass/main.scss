@@ -4,3 +4,7 @@
 @use "./layout/header";
 @use "./layout/footer";
 @use "./pages/homePages";
+@use "./pages/adminPage";
+@use "./pages/editMovie";
+@use "./layout/film";
+@use "./pages/userManagement";
