@@ -1,99 +1,77 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { useParams, useMatch } from "react-router-dom";
+import { useParams, useMatch, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const FormEdit = () => {
   const match = useMatch("/admin/product-form/:productID");
   const isEdit = !!match;
-  console.log(isEdit);
-  // const navigate = useNavigate();
-  // let proFormik = useFormik({
-  //   initialValues: {
-  //     tenPhim: "",
-  //     trailer: "",
-  //     moTa: "",
-  //     maNhom: "GP01",
-  //     ngayKhoiChieu: "10/10/2020",
-  //     sapChieu: true,
-  //     dangChieu: true,
-  //     hot: true,
-  //     danhGia: 10,
-  //     hinhAnh: { get, set },
-  //     deleted: false, //sản phẩm được xóa hay chưa
-  //   },
-  //   onSubmit: async (data) => {
-  //     console.log(data);
+  const accessToken = localStorage.getItem("accessToken");
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
+  const navigate = useNavigate();
+  let proFormik = useFormik({
+    initialValues: {
+      tenPhim: "",
+      trailer: "",
+      moTa: "",
+      maNhom: "GP01",
+      ngayKhoiChieu: "",
+      sapChieu: false,
+      dangChieu: false,
+      hot: false,
+      danhGia: 5,
+      hinhAnh: null,
 
-  //     //Giả sử ban đầu là Add
-  //     let url =
-  //       "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh";
-  //     let method = "POST";
-  //     if (isEdit) {
-  //       // Nếu là edit => update giá tri của url và method thành Edit
-  //       url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload/${match.params.productID}`;
-  //       method = "POST";
-  //     }
+      deleted: false, //sản phẩm được xóa hay chưa
+    },
+    onSubmit: async (data) => {
+      console.log(data);
+      //Giả sử ban đầu là Add
+      let url =
+        "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh";
+      let method = "POST";
+      if (isEdit) {
+        // Nếu là edit => update giá tri của url và method thành Edit
+        url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload/${match.params.productID}`;
+        method = "POST";
+      }
 
-  //     let res = await axios({
-  //       url,
-  //       method,
-  //       data,
-  //     });
-  //     console.log(res.data);
+      let res = await axios({
+        url,
+        method,
+        data,
+      });
+      console.log(res.data);
 
-  //     navigate("/admin/product", { state: "abc" }); //truyền ngầm giá trị
-  //   },
-  // });
-  // const getArrMovie = async () => {
-  //   let url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01&tenPhim=${keyword}`;
-  //   let token =
-  //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
-  //   try {
-  //     const res = await axios.get(url, {
-  //       headers: {
-  //         TokenCybersoft: token,
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
+      // navigate("/admin/product", { state: "abc" }); //truyền ngầm giá trị
+    },
+  });
+  const getArrMovie = async () => {
+    console.log(`${match.params.productID}`);
+    let url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${match.params.productID}`;
 
-  //     const data = res?.data?.content || [];
-  //     proFormik.setValues(data);
-  //   } catch (error) {
-  //     console.error("Lỗi khi gọi API:", error);
-  //   }
-  // };
-  // useEffect(() => {
-  //   getArrMovie();
-  // }, []);
-  let param = useParams();
-  let { productID } = param;
-
-  let getMovieByID = async () => {
-    let url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload/${productID}`;
-    let token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
-    let accessToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoidGV4dDIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbWFpbHRleHQxMjNAZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbIktoYWNoSGFuZyIsImVtYWlsdGV4dDEyM0BnbWFpbC5jb20iLCJHUDAwIl0sIm5iZiI6MTczMjgyMTY3OCwiZXhwIjoxNzMyODI1Mjc4fQ.9pt17c9xye0j9T5HIl8N6Xfx7rrKD9czmLnsYS8jc9Y";
     try {
       const res = await axios.get(url, {
         headers: {
           Authorization: accessToken,
-
           TokenCybersoft: token,
-          "COntent-Type": "application/Json",
+          "Content-Type": "application/json",
         },
       });
-      console.log(res);
-      // const data = res?.data;
-      // console.log(data);
+
+      const data = res?.data?.content || [];
+      proFormik.setValues(data);
+      console.log(data);
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
     }
   };
-  // useEffect(() => {
-  //   getMovieByID();
-  // }, []);
+  useEffect(() => {
+    if (isEdit) {
+      getArrMovie();
+    }
+  }, [isEdit]);
 
   return (
     <div className="form-admin row">
@@ -104,7 +82,7 @@ const FormEdit = () => {
         </h1>
       </div>
       <div className="form-admin_right col-7">
-        <form className="form-edit_add">
+        <form className="form-edit_add" onSubmit={proFormik.handleSubmit}>
           <div className="mb-3">
             <label htmlFor="fontSize" className="form-label">
               Font Size
@@ -114,13 +92,22 @@ const FormEdit = () => {
               type="text"
               className="form-control"
               id="fontSize"
+              value={proFormik.values.fontSize}
+              onChange={proFormik.handleChange}
             />
           </div>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Name
             </label>
-            <input name="name" type="text" className="form-control" id="name" />
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="tenPhim"
+              value={proFormik.values.tenPhim}
+              onChange={proFormik.handleChange}
+            />
           </div>
           <div className="mb-3">
             <label htmlFor="trailer" className="form-label">
@@ -128,6 +115,8 @@ const FormEdit = () => {
             </label>
             <input
               name="trailer"
+              value={proFormik.values.trailer}
+              onChange={proFormik.handleChange}
               type="text"
               className="form-control"
               id="trailer"
@@ -138,7 +127,9 @@ const FormEdit = () => {
               Description
             </label>
             <textarea
-              name="description"
+              name="moTa"
+              value={proFormik.values.moTa}
+              onChange={proFormik.handleChange}
               type="text"
               className="form-control"
               id="description"
@@ -149,15 +140,32 @@ const FormEdit = () => {
               Movie Date
             </label>
             <input
-              name="movieData"
-              type="date"
+              name="ngayKhoiChieu"
+              value={proFormik.values.ngayKhoiChieu}
+              onChange={proFormik.handleChange}
+              type="text"
+              className="form-control"
+              id="movieData"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="movieData" className="form-label">
+              Image
+            </label>
+            <input
+              name="hinhAnh"
+              value={proFormik.values.hinhAnh}
+              onChange={proFormik.handleChange}
+              type="text"
               className="form-control"
               id="movieData"
             />
           </div>
           <div className="mb-3 checkbox">
             <input
-              name="isShowing"
+              name="dangChieu"
+              value={proFormik.values.dangChieu}
+              onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
               id="isShowing"
@@ -168,7 +176,9 @@ const FormEdit = () => {
           </div>
           <div className="mb-3 checkbox">
             <input
-              name="comingSoon"
+              name="sapChieu"
+              value={proFormik.values.sapChieu}
+              onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
               id="comingSoon"
@@ -180,6 +190,8 @@ const FormEdit = () => {
           <div className="mb-3 checkbox">
             <input
               name="hot"
+              value={proFormik.values.hot}
+              onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
               id="hot"
@@ -194,10 +206,14 @@ const FormEdit = () => {
               Number Star
             </label>
             <input
-              name="numberStar"
+              name="danhGia"
+              value={proFormik.values.danhGia}
+              onChange={proFormik.handleChange}
               type="number"
               className="form-control"
               id="numberStar"
+              min={1}
+              max={5}
               style={{ width: "100px" }}
             />
           </div>

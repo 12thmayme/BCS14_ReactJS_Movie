@@ -8,3 +8,9 @@
 @use "./pages/editMovie";
 @use "./layout/film";
 @use "./pages/userManagement";
+@use "./components/MovieCard";
+@use "./components/MovieList";
+@use "./components/Login";
+@use "./components/FormBanner";
+@use "./components/Register";
+@use "./components/Detail";

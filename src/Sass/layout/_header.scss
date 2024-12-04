@@ -1,6 +1,5 @@
 @use "../helper/variables" as *;
 @use "../helper/mixin" as *;
-
 .navbar {
   background-color: transparent;
   position: fixed;
@@ -9,7 +8,6 @@
   left: 0;
   z-index: 999;
   transition: background-color 0.5s linear;
-
   &::before {
     content: "";
     width: 100%;
@@ -103,6 +101,7 @@
     }
   }
 }
+
 .scrolled {
   background-color: black;
   animation: slide-down 0.5s linear forwards;
@@ -121,5 +120,80 @@
   }
   100% {
     transform: translateY(0%);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  &__logo img {
+    height: 40px;
+  }
+  &__search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #f9f9f9;
+    &-icon {
+      font-size: 16px;
+      margin-right: 10px;
+      color: #999;
+    }
+    &-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      color: #333;
+      background: transparent;
+      &::placeholder {
+        color: #bbb;
+      }
+    }
+  }
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    & > * {
+      cursor: pointer;
+    }
+  }
+  &__location {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+    i {
+      margin-left: 5px;
+      font-size: 12px;
+    }
+  }
+  &__signin {
+    padding: 5px 15px;
+    background-color: $primary;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    &:hover {
+      background-color: #ff6600;
+    }
+  }
+  &__menu-icon {
+    font-size: 20px;
+    color: #ff6600;
   }
 }
