@@ -1,7 +1,14 @@
 import React from "react";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MovieCard = ({ movie }) => {
+  const navigate = useNavigate();
+
+  const handleGetTicketClick = () => {
+    navigate(`/booking/${movie.maPhim}`); // Navigate to the booking page with the movie ID
+  };
   const [showTrailer, setShowTrailer] = useState(false);
 
   const handlePlayClick = () => {
@@ -21,10 +28,7 @@ const MovieCard = ({ movie }) => {
             alt={movie.tenPhim}
             className="movie-card__image"
           />
-          <div
-            className="movie-card__play-icon"
-            onClick={handlePlayClick}
-          >
+          <div className="movie-card__play-icon" onClick={handlePlayClick}>
             <i className="fa fa-play"></i>
           </div>
         </div>
@@ -43,33 +47,36 @@ const MovieCard = ({ movie }) => {
               ></i>
             ))}
           </p>
-          <button className="movie-card__button">Get Ticket</button>
+          <button className="movie-card__button" onClick={handleGetTicketClick}>
+        Get Ticket
+      </button>
         </div>
       </div>
 
       {/* Modal for Trailer */}
       {showTrailer && (
-  <div className="movie-card__modal">
-    <div className="movie-card__modal-content">
-      <button
-        className="movie-card__modal-close"
-        onClick={handleCloseModal}
-      >
-        &times;
-      </button>
-      <iframe
-        src={`https://www.youtube.com/embed/${movie.trailer.split("v=")[1]}`}
-        title="Trailer"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
-    </div>
-  </div>
-)}
+        <div className="movie-card__modal">
+          <div className="movie-card__modal-content">
+            <button
+              className="movie-card__modal-close"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
+            <iframe
+              src={`https://www.youtube.com/embed/${
+                movie.trailer.split("v=")[1]
+              }`}
+              title="Trailer"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
     </>
   );
 };
 
 export default MovieCard;
-

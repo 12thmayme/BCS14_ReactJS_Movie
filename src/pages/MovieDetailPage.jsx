@@ -1,6 +1,5 @@
 import React from 'react'
 import Detail from '../Components/Detail'
-import CinemaList from '../Components/CinemaList'
 
 const MovieDetailPage = () => {
   return (

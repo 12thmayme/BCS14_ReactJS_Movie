@@ -9,7 +9,6 @@ import {
 import Detail from "./Components/Detail";
 import HomePage from "./pages/HomePage";
 import MovieList from "./Components/MovieList";
-import CinemaList from "./Components/CinemaList";
 import SearchPage from "./pages/SearchPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -38,9 +37,9 @@ const App = () => {
 
         {/* User Routes */}
         <Route path="/user" element={<FormTemplate />}>
+          <Route path="profile" element={<UserProfile />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="profile" element={<UserProfile />} />
           <Route path="*" element={<Navigate to="/user/login" replace />} />
         </Route>
       </Routes>
