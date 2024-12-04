@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { token } from "../constants/token";
 
 const ScheduleSelector = () => {
-  const { id } = useParams(); // Get the movie ID from the URL
-  const navigate = useNavigate(); // Initialize navigate hook
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [cinemas, setCinemas] = useState([]);
   const [selectedCinema, setSelectedCinema] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [error, setError] = useState("");
 
-  // Fetch Cinema Systems
   useEffect(() => {
     const fetchCinemas = async () => {
       try {
@@ -24,6 +23,9 @@ const ScheduleSelector = () => {
           }
         );
         setCinemas(response.data.content || []);
+        if (response.data.content.length > 0) {
+          setSelectedCinema(response.data.content[0].maHeThongRap);
+        }
       } catch (err) {
         console.error("Error fetching cinema systems:", err);
         setError("Unable to fetch cinema systems.");
@@ -33,7 +35,6 @@ const ScheduleSelector = () => {
     fetchCinemas();
   }, []);
 
-  // Fetch Movie Schedules When Cinema is Selected
   useEffect(() => {
     if (!selectedCinema) return;
 
@@ -42,9 +43,7 @@ const ScheduleSelector = () => {
         const response = await axios.get(
           `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${id}`,
           {
-            headers: {
-              TokenCybersoft: token,
-            },
+            headers: { TokenCybersoft: token },
           }
         );
         const cinemaSchedules = response.data.content.heThongRapChieu.find(
@@ -60,18 +59,8 @@ const ScheduleSelector = () => {
     fetchSchedules();
   }, [selectedCinema, id]);
 
-  const handleBookClick = (scheduleId) => {
-    // Navigate to the booking page for the selected schedule
-    navigate(`/schedule/${scheduleId}`);
-  };
-
   return (
-    <div className="schedule-selector-container">
-      <h2>Chọn Lịch Xem Phim</h2>
-
-      {/* Error Display */}
-      {error && <p className="error-message">{error}</p>}
-
+    <div className="schedule-selector">
       {/* Cinema Selector */}
       <div className="cinema-selector">
         <h3>Select a Cinema</h3>
@@ -91,33 +80,25 @@ const ScheduleSelector = () => {
       </div>
 
       {/* Schedule Display */}
-      {selectedCinema && schedules.length > 0 && (
-        <div className="schedule-container">
-          <h3>Available Schedules</h3>
-          {schedules.map((cinema) => (
-            <div key={cinema.maCumRap} className="cinema-schedule">
-              <h4>{cinema.tenCumRap}</h4>
-              <ul>
-                {cinema.lichChieuPhim.map((schedule) => (
-                  <li key={schedule.maLichChieu}>
-                    {new Date(schedule.ngayChieuGioChieu).toLocaleString()}{" "}
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleBookClick(schedule.maLichChieu)}
-                    >
-                      Book
-                    </button>
-                  </li>
-                ))}
-              </ul>
+      <div className="schedule-display">
+        <h3>Available Schedules</h3>
+        {schedules.map((cinema) => (
+          <div key={cinema.maCumRap} className="cinema-schedule">
+            <h4>{cinema.tenCumRap}</h4>
+            <div className="schedule-times">
+              {cinema.lichChieuPhim.map((schedule) => (
+                <button
+                  key={schedule.maLichChieu}
+                  className="schedule-time"
+                  onClick={() => navigate(`/home/${schedule.maLichChieu}`)}
+                >
+                  {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
+                </button>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
-
-      {selectedCinema && schedules.length === 0 && (
-        <p>No schedules available for the selected cinema.</p>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

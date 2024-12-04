@@ -1,0 +1,116 @@
+@import '../helper/variables';
+.movie-booking-container {
+    display: flex;
+    background-color: #000;
+    /* Black background */
+    color: white;
+    padding: 20px;
+    border: 1px solid #fff;
+    /* White border */
+    border-radius: 5px;
+}
+
+.cinema-system-column {
+    flex: 1;
+    border-right: 2px solid #fff;
+    /* White vertical line */
+    padding-right: 10px;
+}
+
+.cinema-system-column .cinema-logos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Space between logos */
+}
+
+.cinema-logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cinema-logo img:hover {
+    transform: scale(1.1);
+    /* Slight zoom on hover */
+}
+
+.cinema-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.branch-column {
+    flex: 2;
+    border-right: 2px solid #fff;
+    /* White vertical line */
+    padding: 0 10px;
+}
+
+.branch-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.branch-item {
+    color: #32cd32;
+    /* Lime green text */
+    padding: 10px;
+    border-bottom: 1px solid #555;
+    /* Dark border between branches */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.branch-item:hover {
+    background-color: #222;
+    /* Darker background on hover */
+}
+
+.schedule-column {
+    flex: 3;
+    padding-left: 10px;
+}
+
+.schedule-item {
+    margin-bottom: 20px;
+}
+
+.schedule-item h4 {
+    color: white;
+    /* Lime green for movie titles */
+    margin-bottom: 10px;
+}
+
+.schedule-item ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    /* Wrap buttons in multiple rows */
+    gap: 10px;
+    /* Space between schedule buttons */
+    padding: 0;
+}
+
+.schedule-item li {
+    display: inline-block;
+}
+
+.schedule-item li button {
+    background-color: #e63e00;
+    /* Red-orange button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.schedule-item li button:hover {
+    background-color: #e63e00;
+    /* Darker red-orange on hover */
+}
