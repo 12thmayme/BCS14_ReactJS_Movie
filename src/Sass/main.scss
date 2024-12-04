@@ -10,4 +10,8 @@
 @use "./components/FormBanner";
 @use "./components/Register";
 @use "./components/Detail";
-@use "./pages/BookingForm"
+@use "./pages/BookingForm";
+@use "./components/UserProfile";
+@use "./components/SearchBar";
+@use "./components/ScheduleSelector";
+@use "./components/SeatsSelector"

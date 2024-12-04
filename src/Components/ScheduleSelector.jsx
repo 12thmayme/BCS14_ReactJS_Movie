@@ -1,126 +1,111 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
+import { token } from "../constants/token";
 
 const ScheduleSelector = () => {
-  const [cinemaSystems, setCinemaSystems] = useState([]);
-  const [selectedCinemaSystem, setSelectedCinemaSystem] = useState(null);
+  const { id } = useParams(); // Get the movie ID from the URL
+  const [cinemas, setCinemas] = useState([]);
   const [selectedCinema, setSelectedCinema] = useState(null);
-  const [movieSchedules, setMovieSchedules] = useState([]);
+  const [schedules, setSchedules] = useState([]);
   const [error, setError] = useState("");
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E"
 
+  // Fetch Cinema Systems
   useEffect(() => {
-    // Fetch cinema systems and their schedules
-    const fetchCinemaSystems = async () => {
+    const fetchCinemas = async () => {
       try {
         const response = await axios.get(
-          "https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=GP01",
+          "https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinHeThongRap",
           {
             headers: {
-            // Authorization: `Bearer ${token}`,
               TokenCybersoft: token,
             },
           }
         );
-        setCinemaSystems(response.data.content);
+        setCinemas(response.data.content || []);
       } catch (err) {
         console.error("Error fetching cinema systems:", err);
-        setError("Unable to fetch cinema systems. Please try again later.");
+        setError("Unable to fetch cinema systems.");
       }
     };
 
-    fetchCinemaSystems();
+    fetchCinemas();
   }, []);
 
-// useEffect(() => {
-//     axios
-//       .get(
-//         'https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuHeThongRap?maNhom=GP01',
-//         {
-//           headers: {
-//             TokenCybersoft:
-//               'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E',
-//           },
-//         }
-//       )
-//       .then((res) => console.log(res))
-//       .catch((err) => console.log(err));
-//   }, []);
+  // Fetch Movie Schedules When Cinema is Selected
+  useEffect(() => {
+    if (!selectedCinema) return;
 
-  const handleCinemaSystemClick = (cinemaSystem) => {
-    setSelectedCinemaSystem(cinemaSystem);
-    setSelectedCinema(null); // Reset cinema selection
-    setMovieSchedules([]); // Clear movie schedules
-  };
+    const fetchSchedules = async () => {
+      try {
+        const response = await axios.get(
+          `https://movienew.cybersoft.edu.vn/api/QuanLyRap/LayThongTinLichChieuPhim?MaPhim=${id}`,
+          {
+            headers: {
+              TokenCybersoft: token,
+            },
+          }
+        );
+        const cinemaSchedules = response.data.content.heThongRapChieu.find(
+          (cinema) => cinema.maHeThongRap === selectedCinema
+        );
+        setSchedules(cinemaSchedules?.cumRapChieu || []);
+      } catch (err) {
+        console.error("Error fetching schedules:", err);
+        setError("Unable to fetch schedules.");
+      }
+    };
 
-  const handleCinemaClick = (cinema) => {
-    setSelectedCinema(cinema);
-    setMovieSchedules(cinema.lichChieuPhim); // Set schedules for the selected cinema
-  };
+    fetchSchedules();
+  }, [selectedCinema, id]);
 
   return (
-    <div className="schedule-selector">
-      <h2 className="title">Chọn Lịch Chiếu</h2>
-      {error && <div className="error">{error}</div>}
+    <div className="schedule-selector-container">
+      <h2>Chọn Lịch Xem Phim</h2>
 
-      {/* Cinema System Selection */}
-      <div className="cinema-system-list">
-        {cinemaSystems.map((system) => (
-          <div
-            key={system.maHeThongRap}
-            className={`cinema-system-item ${
-              selectedCinemaSystem?.maHeThongRap === system.maHeThongRap
-                ? "active"
-                : ""
-            }`}
-            onClick={() => handleCinemaSystemClick(system)}
-          >
-            <img src={system.logo} alt={system.tenHeThongRap} />
-            <p>{system.tenHeThongRap}</p>
-          </div>
-        ))}
+      {/* Error Display */}
+      {error && <p className="error-message">{error}</p>}
+
+      {/* Cinema Selector */}
+      <div className="cinema-selector">
+        <h3>Select a Cinema</h3>
+        <div className="cinema-logos">
+          {cinemas.map((cinema) => (
+            <div
+              key={cinema.maHeThongRap}
+              className={`cinema-logo ${
+                selectedCinema === cinema.maHeThongRap ? "active" : ""
+              }`}
+              onClick={() => setSelectedCinema(cinema.maHeThongRap)}
+            >
+              <img src={cinema.logo} alt={cinema.tenHeThongRap} />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Cinema Selection */}
-      {selectedCinemaSystem && (
-        <div className="cinema-list">
-          <h3>Rạp thuộc hệ thống: {selectedCinemaSystem.tenHeThongRap}</h3>
-          {selectedCinemaSystem.lstCumRap.map((cinema) => (
-            <div
-              key={cinema.maCumRap}
-              className={`cinema-item ${
-                selectedCinema?.maCumRap === cinema.maCumRap ? "active" : ""
-              }`}
-              onClick={() => handleCinemaClick(cinema)}
-            >
-              <p>{cinema.tenCumRap}</p>
-              <small>{cinema.diaChi}</small>
+      {/* Schedule Display */}
+      {selectedCinema && schedules.length > 0 && (
+        <div className="schedule-container">
+          <h3>Available Schedules</h3>
+          {schedules.map((cinema) => (
+            <div key={cinema.maCumRap} className="cinema-schedule">
+              <h4>{cinema.tenCumRap}</h4>
+              <ul>
+                {cinema.lichChieuPhim.map((schedule) => (
+                  <li key={schedule.maLichChieu}>
+                    {new Date(schedule.ngayChieuGioChieu).toLocaleString()}{" "}
+                    <button className="btn btn-primary">Book</button>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>
       )}
 
-      {/* Movie Schedule Display */}
-      {selectedCinema && (
-        <div className="movie-schedule">
-          <h3>Lịch Chiếu tại {selectedCinema.tenCumRap}</h3>
-          {movieSchedules.length > 0 ? (
-            <ul>
-              {movieSchedules.map((schedule) => (
-                <li key={schedule.maLichChieu}>
-                  <span>{schedule.tenPhim}</span> -{" "}
-                  <span>
-                    {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
-                  </span>
-                  <button className="btn-book">Đặt Vé</button>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>Không có lịch chiếu tại rạp này.</p>
-          )}
-        </div>
+      {selectedCinema && schedules.length === 0 && (
+        <p>No schedules available for the selected cinema.</p>
       )}
     </div>
   );

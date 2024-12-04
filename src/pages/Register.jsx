@@ -162,7 +162,7 @@ const Register = () => {
           />
         </div>
 
-        <div className="form-group remember-me">
+        <div className="register-form__group__agree">
           <input type="checkbox" id="terms" required />
           <label htmlFor="terms">I agree with the terms and conditions</label>
         </div>

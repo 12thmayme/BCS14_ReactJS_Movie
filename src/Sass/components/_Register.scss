@@ -66,6 +66,23 @@
             }
         }
     }
+    .register-form__group__agree {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* Space between checkbox and label */
+        margin-bottom: 15px;
+    }
+    .register-form__group input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+    .register-form__group label {
+        font-size: 14px;
+        color: #555;
+        cursor: pointer;
+    }
     @media (max-width: 768px) {
         .register-container {
             padding: 10px;

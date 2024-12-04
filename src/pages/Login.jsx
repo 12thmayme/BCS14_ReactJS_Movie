@@ -86,14 +86,14 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-primary" disabled={loading}>
+        <button type="submit" className="btn-submit" disabled={loading}>
           {loading ? "Logging in..." : "Log in"}
         </button>
       </form>
 
-      <p className="mt-3">
+      <p className="additional-text mt-3">
         Don't have an account?{" "}
-        <a href="/user/register" className="text-primary">
+        <a href="/user/register" className="register-here">
           Register here
         </a>
       </p>

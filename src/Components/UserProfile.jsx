@@ -1,5 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
+import { useState } from "react";
+import { useEffect } from "react";
+import { token } from "../constants/token";
+
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null); // Unified user data
@@ -21,9 +25,7 @@ const UserProfile = () => {
 
         // Fetch user data from API
         const url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=${localUser.taiKhoan}`;
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
-
+        
         const response = await axios.get(url, {
           headers: {
             TokenCybersoft: token,
@@ -67,30 +69,29 @@ const UserProfile = () => {
   }
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">User Profile</h2>
+    <div className="user-profile container mt-5">
+    <h2 className="user-profile__title text-center mb-4">Thông Tin Tài Khoản</h2>
 
-      {userData ? (
-        <div className="card mx-auto" style={{ maxWidth: "500px" }}>
-          <div className="card-header bg-primary text-white text-center">
-            <h3>{userData.taiKhoan}</h3>
-          </div>
-          <div className="card-body">
-            <p>
-              <strong>Email:</strong> {userData.email || "Not Provided"}
-            </p>
-            <p>
-              <strong>Phone Number:</strong> {userData.soDT || "Not Provided"}
-            </p>
-            <p>
-              <strong>Role:</strong> {userData.maLoaiNguoiDung || "User"}
-            </p>
-          </div>
+    {userData ? (
+      <div className="user-profile__card card mx-auto">
+        <div className="user-profile__body card-body">
+          <p>
+            <strong>Email:</strong> {userData.email || "Not Provided"}
+          </p>
+          <p>
+            <strong>Phone Number:</strong> {userData.soDT || "Not Provided"}
+          </p>
+          <p>
+            <strong>Role:</strong> {userData.maLoaiNguoiDung || "User"}
+          </p>
         </div>
-      ) : (
-        <p className="text-center text-muted">No user data available.</p>
-      )}
-    </div>
+      </div>
+    ) : (
+      <p className="user-profile__no-data text-center text-muted">
+        No user data available.
+      </p>
+    )}
+  </div>
   );
 };
 

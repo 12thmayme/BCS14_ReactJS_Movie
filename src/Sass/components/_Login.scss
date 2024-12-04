@@ -75,15 +75,6 @@ label {
     color: #555;
 }
 
-.remember-me {
-    display: flex;
-    align-items: center;
-}
-
-.remember-me input {
-    margin-right: 5px;
-}
-
 .btn-submit {
     width: 100%;
     padding: 10px;
@@ -99,7 +90,7 @@ label {
     background-color: #b55a21;
 }
 
-.forgot-password {
+.additional-text {
     display: block;
     margin-top: 10px;
     text-align: center;
@@ -108,6 +99,6 @@ label {
     font-size: 14px;
 }
 
-.forgot-password:hover {
-    text-decoration: underline;
+.register-here {
+    color: #d96c2b;
 }

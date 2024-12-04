@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
 
 const Header = ({ onSearch }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -41,25 +42,10 @@ const Header = ({ onSearch }) => {
       <nav className={`navbar navbar-expand-lg ${scrolled ? "scrolled" : ""}`}>
         <div className="container">
           {/* Brand */}
-          <Link to="/" className="navbar-brand">
+          <Link to="/home" className="navbar-brand">
             CyberSoft Movie
           </Link>
-
-          {/* Search */}
-          <div className="header__search">
-            <i
-              className="fa fa-search header__search-icon"
-              aria-hidden="true"
-            ></i>
-            <input
-              type="text"
-              className="header__search-input"
-              placeholder="Search for Movies"
-              value={searchTerm}
-              onChange={handleSearch}
-              aria-label="Search for movies"
-            />
-          </div>
+          <SearchBar/>
 
           {/* Actions */}
           <div className="header__actions">
