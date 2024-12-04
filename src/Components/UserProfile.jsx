@@ -70,28 +70,67 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile container mt-5">
-    <h2 className="user-profile__title text-center mb-4">Thông Tin Tài Khoản</h2>
-
-    {userData ? (
-      <div className="user-profile__card card mx-auto">
-        <div className="user-profile__body card-body">
-          <p>
-            <strong>Email:</strong> {userData.email || "Not Provided"}
-          </p>
-          <p>
-            <strong>Phone Number:</strong> {userData.soDT || "Not Provided"}
-          </p>
-          <p>
-            <strong>Role:</strong> {userData.maLoaiNguoiDung || "User"}
-          </p>
+      <h2 className="text-center mb-4">User Profile</h2>
+      {userData ? (
+        <div className="card mx-auto" style={{ maxWidth: "500px" }}>
+          {/* User Information */}
+          <div className="card-header text-center">
+            <h3>{userData.hoTen || "User Name Not Provided"}</h3>
+          </div>
+          <div className="card-body">
+            <p>
+              <strong>Username:</strong> {userData.taiKhoan || "Not Provided"}
+            </p>
+            <p>
+              <strong>Email:</strong> {userData.email || "Not Provided"}
+            </p>
+            <p>
+              <strong>Phone Number:</strong> {userData.soDT || "Not Provided"}
+            </p>
+            <p>
+              <strong>Role:</strong>{" "}
+              {userData.maLoaiNguoiDung === "QuanTri" ? "Admin" : "Customer"}
+            </p>
+          </div>
+  
+          {/* Booking History */}
+          {userData.thongTinDatVe && userData.thongTinDatVe.length > 0 ? (
+            <div className="mt-4">
+              <h4>Booking History</h4>
+              <ul className="list-group">
+                {userData.thongTinDatVe.map((booking, index) => (
+                  <li key={index} className="list-group-item">
+                    <p>
+                      <strong>Movie:</strong> {booking.tenPhim || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Date:</strong>{" "}
+                      {new Date(booking.ngayDat).toLocaleString() || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Seats:</strong>{" "}
+                      {booking.danhSachGhe
+                        .map((seat) => seat.tenGhe)
+                        .join(", ") || "N/A"}
+                    </p>
+                    <p>
+                      <strong>Total Price:</strong>{" "}
+                      {booking.giaVe.toLocaleString()} VND
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <p className="text-muted mt-4 text-center">
+              No booking history available.
+            </p>
+          )}
         </div>
-      </div>
-    ) : (
-      <p className="user-profile__no-data text-center text-muted">
-        No user data available.
-      </p>
-    )}
-  </div>
+      ) : (
+        <p className="text-center text-muted">No user data available.</p>
+      )}
+    </div>
   );
 };
 

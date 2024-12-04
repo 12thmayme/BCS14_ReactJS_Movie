@@ -3,13 +3,13 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { token } from "../constants/token";
 
-
 const SeatsSelector = () => {
   const { scheduleId } = useParams(); // Get the schedule ID from the URL
   const [seatData, setSeatData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [timer, setTimer] = useState(300); // Timer starts at 300 seconds (5 minutes)
   const [error, setError] = useState("");
+  const [modalVisible, setModalVisible] = useState(false); // Modal visibility state
 
   // Fetch seat data from API
   useEffect(() => {
@@ -64,6 +64,47 @@ const SeatsSelector = () => {
   // Calculate total price
   const totalPrice = selectedSeats.reduce((total, seat) => total + seat.giaVe, 0);
 
+  // Handle order confirmation
+  const handleOrder = async () => {
+    try {
+      const userToken = localStorage.getItem("userToken"); // Retrieve user token from localStorage
+      const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser")); // Retrieve logged-in user details
+  
+      if (!userToken || !loggedInUser) {
+        setError("You must be logged in to place an order.");
+        return;
+      }
+  
+      const bookingData = {
+        maLichChieu: scheduleId,
+        danhSachVe: selectedSeats.map((seat) => ({
+          maGhe: seat.maGhe,
+          giaVe: seat.giaVe,
+        })),
+        taiKhoanNguoiDung: loggedInUser?.taiKhoan,
+      };
+  
+      const response = await axios.post(
+        "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
+        bookingData,
+        {
+          headers: {
+            Authorization: `Bearer ${userToken}`, // Bearer token for authentication
+            TokenCybersoft: token, // Static API token
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        setModalVisible(true); // Show success modal
+      } else {
+        setError("Booking failed. Please try again.");
+      }
+    } catch (err) {
+      console.error("Error booking seats:", err);
+      setError("Booking failed. Please try again.");
+    }
+  };
   if (error) return <p className="text-danger">{error}</p>;
 
   return (
@@ -104,11 +145,28 @@ const SeatsSelector = () => {
         <button
           disabled={selectedSeats.length === 0}
           className="btn btn-primary"
+          onClick={handleOrder}
         >
           Proceed to Payment ({selectedSeats.length})
         </button>
         <p>Time Left: {formatTime(timer)}</p>
       </div>
+
+      {/* Success Modal */}
+      {modalVisible && (
+        <div className="modal">
+          <div className="modal-content">
+            <h3>Booking Successful!</h3>
+            <p>Your seats have been booked successfully.</p>
+            <button
+              className="btn btn-success"
+              onClick={() => setModalVisible(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

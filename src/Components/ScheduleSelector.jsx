@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import axios from "axios";
 import { token } from "../constants/token";
 
 const ScheduleSelector = () => {
   const { id } = useParams(); // Get the movie ID from the URL
+  const navigate = useNavigate(); // Initialize navigate hook
   const [cinemas, setCinemas] = useState([]);
   const [selectedCinema, setSelectedCinema] = useState(null);
   const [schedules, setSchedules] = useState([]);
@@ -59,6 +60,11 @@ const ScheduleSelector = () => {
     fetchSchedules();
   }, [selectedCinema, id]);
 
+  const handleBookClick = (scheduleId) => {
+    // Navigate to the booking page for the selected schedule
+    navigate(`/schedule/${scheduleId}`);
+  };
+
   return (
     <div className="schedule-selector-container">
       <h2>Chọn Lịch Xem Phim</h2>
@@ -95,7 +101,12 @@ const ScheduleSelector = () => {
                 {cinema.lichChieuPhim.map((schedule) => (
                   <li key={schedule.maLichChieu}>
                     {new Date(schedule.ngayChieuGioChieu).toLocaleString()}{" "}
-                    <button className="btn btn-primary">Book</button>
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => handleBookClick(schedule.maLichChieu)}
+                    >
+                      Book
+                    </button>
                   </li>
                 ))}
               </ul>
