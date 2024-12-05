@@ -8,7 +8,6 @@ import {
 } from "react-router-dom";
 import Detail from "./Components/Detail";
 import HomePage from "./pages/HomePage";
-import SearchPage from "./pages/SearchPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import FormTemplate from "./Template/FormTemplate";

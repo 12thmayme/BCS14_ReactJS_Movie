@@ -104,7 +104,7 @@ const MovieBooking = () => {
 
   // Handle Schedule Booking
   const handleBookNowClick = (scheduleId) => {
-    navigate(`/seats/${scheduleId}`);
+    navigate(`/home/${scheduleId}`);
   };
 
   return (

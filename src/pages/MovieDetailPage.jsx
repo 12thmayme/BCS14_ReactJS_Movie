@@ -1,7 +1,6 @@
-import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Detail from '../Components/Detail';
-
+import React from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Detail from "../Components/Detail";
 
 const MovieDetailPage = () => {
   const navigate = useNavigate();
@@ -12,12 +11,12 @@ const MovieDetailPage = () => {
   };
 
   return (
-    <div className='movie-detail-page'>
-      <div className='col-12'>
+    <div className="movie-detail-page">
+      <div className="col-12">
         <Detail />
       </div>
-      <div className='get-ticket-container'>
-        <button className="get-ticket" onClick={handleGetTicket}>
+      <div className="get-ticket-container text-center m-4">
+        <button className="btn btn-primary btn-lg" onClick={handleGetTicket}>
           Get Ticket
         </button>
       </div>
