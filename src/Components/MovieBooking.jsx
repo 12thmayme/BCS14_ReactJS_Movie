@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { token } from "../constants/token";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,7 @@ const MovieBooking = () => {
         }
       } catch (err) {
         console.error("Error fetching cinema systems:", err);
-        setError("Unable to fetch cinema systems.");
+        setError("Unable to fetch cinema systems. Please try again later.");
       }
     };
 
@@ -63,7 +63,7 @@ const MovieBooking = () => {
         }
       } catch (err) {
         console.error("Error fetching branches:", err);
-        setError("Unable to fetch branches.");
+        setError("Unable to fetch branches. Please try again later.");
       }
     };
 
@@ -95,7 +95,7 @@ const MovieBooking = () => {
         setSchedules(branchData.danhSachPhim || []);
       } catch (err) {
         console.error("Error fetching schedules:", err);
-        setError("Unable to fetch schedules.");
+        setError("Unable to fetch schedules. Please try again later.");
       }
     };
 
@@ -103,68 +103,78 @@ const MovieBooking = () => {
   }, [selectedBranch, selectedCinema]);
 
   // Handle Schedule Booking
-  const handleBookNowClick = (scheduleId) => {
+  const handleBookNowClick = useCallback((scheduleId) => {
     navigate(`/home/${scheduleId}`);
-  };
+  }, [navigate]);
 
   return (
-    <div className="movie-booking-container">
-      {/* Cinema Systems */}
-      <div className="cinema-system-column">
-        <div className="cinema-logos">
-          {cinemaSystems.map((cinema) => (
-            <div
-              key={cinema.maHeThongRap}
-              className={`cinema-logo ${
-                selectedCinema === cinema.maHeThongRap ? "active" : ""
-              }`}
-              onClick={() => setSelectedCinema(cinema.maHeThongRap)}
-            >
-              <img src={cinema.logo} alt={cinema.tenHeThongRap} />
-            </div>
-          ))}
+    <>
+      <h1 className="movie-booking-title text-center">Select Movies</h1>
+      <div className="movie-booking-container">
+  {/* Cinema Systems */}
+  <div className="cinema-system-column scrollable-container">
+    <div className="cinema-logos">
+      {cinemaSystems.map((cinema) => (
+        <div
+          key={cinema.maHeThongRap}
+          className={`cinema-logo ${
+            selectedCinema === cinema.maHeThongRap ? "active" : ""
+          }`}
+          onClick={() => setSelectedCinema(cinema.maHeThongRap)}
+        >
+          <img src={cinema.logo} alt={cinema.tenHeThongRap} />
         </div>
-      </div>
-
-      {/* Branches */}
-      <div className="branch-column">
-        <ul>
-          {branches.map((branch) => (
-            <li
-              key={branch.maCumRap}
-              className={`branch-item ${
-                selectedBranch === branch.maCumRap ? "active" : ""
-              }`}
-              onClick={() => setSelectedBranch(branch.maCumRap)}
-            >
-              {branch.tenCumRap}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Schedules */}
-      <div className="schedule-column">
-        {schedules.map((movie) => (
-          <div key={movie.maPhim} className="schedule-item">
-            <h4>{movie.tenPhim}</h4>
-            <ul>
-              {movie.lstLichChieuTheoPhim.map((schedule) => (
-                <li key={schedule.maLichChieu}>
-                  <button
-                    onClick={() => handleBookNowClick(schedule.maLichChieu)}
-                  >
-                    {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      {error && <p className="text-danger">{error}</p>}
+      ))}
     </div>
+  </div>
+
+  {/* Branches */}
+  <div className="branch-column scrollable-container">
+    {branches.length > 0 ? (
+      <ul>
+        {branches.map((branch) => (
+          <li
+            key={branch.maCumRap}
+            className={`branch-item ${
+              selectedBranch === branch.maCumRap ? "active" : ""
+            }`}
+            onClick={() => setSelectedBranch(branch.maCumRap)}
+          >
+            {branch.tenCumRap}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No branches available.</p>
+    )}
+  </div>
+
+  {/* Schedules */}
+  <div className="schedule-column scrollable-container">
+    {schedules.length > 0 ? (
+      schedules.map((movie) => (
+        <div key={movie.maPhim} className="schedule-item">
+          <h4>{movie.tenPhim}</h4>
+          <ul>
+            {movie.lstLichChieuTheoPhim.map((schedule) => (
+              <li key={schedule.maLichChieu}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleBookNowClick(schedule.maLichChieu)}
+                >
+                  {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    ) : (
+      <p>No schedules available.</p>
+    )}
+  </div>
+</div>
+    </>
   );
 };
 

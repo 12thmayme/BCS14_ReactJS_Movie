@@ -60,46 +60,48 @@ const ScheduleSelector = () => {
   }, [selectedCinema, id]);
 
   return (
+    <>
+    <h1 class="schedule-selector-title text-center">Select Movies</h1>
     <div className="schedule-selector">
-      {/* Cinema Selector */}
-      <div className="cinema-selector">
-        <h3>Select a Cinema</h3>
-        <div className="cinema-logos">
-          {cinemas.map((cinema) => (
-            <div
-              key={cinema.maHeThongRap}
-              className={`cinema-logo ${
-                selectedCinema === cinema.maHeThongRap ? "active" : ""
-              }`}
-              onClick={() => setSelectedCinema(cinema.maHeThongRap)}
+  {/* Cinema Selector */}
+  <div className="cinema-selector">
+    <div className="cinema-logos scrollable">
+      {cinemas.map((cinema) => (
+        <div
+          key={cinema.maHeThongRap}
+          className={`cinema-logo ${
+            selectedCinema === cinema.maHeThongRap ? "active" : ""
+          }`}
+          onClick={() => setSelectedCinema(cinema.maHeThongRap)}
+        >
+          <img src={cinema.logo} alt={cinema.tenHeThongRap} />
+        </div>
+      ))}
+    </div>
+  </div>
+
+  {/* Schedule Display */}
+  <div className="schedule-display">
+    {schedules.map((cinema) => (
+      <div key={cinema.maCumRap} className="cinema-schedule">
+        <h4>{cinema.tenCumRap}</h4>
+        <div className="schedule-times">
+          {cinema.lichChieuPhim.map((schedule) => (
+            <button
+              key={schedule.maLichChieu}
+              className="schedule-time"
+              onClick={() => navigate(`/home/${schedule.maLichChieu}`)}
             >
-              <img src={cinema.logo} alt={cinema.tenHeThongRap} />
-            </div>
+              {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
+            </button>
           ))}
         </div>
       </div>
+    ))}
+  </div>
+</div>
 
-      {/* Schedule Display */}
-      <div className="schedule-display">
-        <h3>Available Schedules</h3>
-        {schedules.map((cinema) => (
-          <div key={cinema.maCumRap} className="cinema-schedule">
-            <h4>{cinema.tenCumRap}</h4>
-            <div className="schedule-times">
-              {cinema.lichChieuPhim.map((schedule) => (
-                <button
-                  key={schedule.maLichChieu}
-                  className="schedule-time"
-                  onClick={() => navigate(`/home/${schedule.maLichChieu}`)}
-                >
-                  {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
-                </button>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 };
 

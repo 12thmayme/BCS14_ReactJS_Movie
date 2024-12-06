@@ -1,19 +1,32 @@
 @import '../helper/variables';
 .movie-booking-container {
     display: flex;
-    background-color: #000;
-    /* Black background */
+    background-color: transparent;
     color: white;
     padding: 20px;
-    border: 1px solid #fff;
-    /* White border */
     border-radius: 5px;
+    margin: 20px;
 }
 
+.movie-booking-title {
+    color: #d96c2b;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 28px;
+    margin: 30px 0;
+}
+
+// .cinema-system-column,
+// .branch-column,
+// .schedule-column {
+//     padding: 10px;
+//     border: 1px solid #ddd;
+//     border-radius: 8px;
+//     margin-right: 10px;
+// }
 .cinema-system-column {
     flex: 1;
-    border-right: 2px solid #fff;
-    /* White vertical line */
+    border-right: 1px solid black;
     padding-right: 10px;
 }
 
@@ -21,32 +34,30 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    /* Space between logos */
-}
-
-.cinema-logo img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    cursor: pointer;
-    transition: transform 0.3s;
-}
-
-.cinema-logo img:hover {
-    transform: scale(1.1);
-    /* Slight zoom on hover */
 }
 
 .cinema-logo {
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cinema-logo img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    transition: transform 0.3s;
+}
+
+.cinema-logo img:hover {
+    transform: scale(1.1);
 }
 
 .branch-column {
     flex: 2;
-    border-right: 2px solid #fff;
-    /* White vertical line */
+    border-right: 1px solid black;
     padding: 0 10px;
 }
 
@@ -56,18 +67,15 @@
 }
 
 .branch-item {
-    color: #32cd32;
-    /* Lime green text */
+    color: black;
     padding: 10px;
     border-bottom: 1px solid #555;
-    /* Dark border between branches */
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .branch-item:hover {
-    background-color: #222;
-    /* Darker background on hover */
+    background-color: #ebb217;
 }
 
 .schedule-column {
@@ -80,8 +88,7 @@
 }
 
 .schedule-item h4 {
-    color: white;
-    /* Lime green for movie titles */
+    color: black;
     margin-bottom: 10px;
 }
 
@@ -89,9 +96,7 @@
     list-style: none;
     display: flex;
     flex-wrap: wrap;
-    /* Wrap buttons in multiple rows */
     gap: 10px;
-    /* Space between schedule buttons */
     padding: 0;
 }
 
@@ -100,8 +105,7 @@
 }
 
 .schedule-item li button {
-    background-color: #e63e00;
-    /* Red-orange button */
+    background-color: #d96c2b;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -111,6 +115,25 @@
 }
 
 .schedule-item li button:hover {
-    background-color: #e63e00;
-    /* Darker red-orange on hover */
+    background-color: #c8541b;
+}
+
+.scrollable-container {
+    max-height: 600px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d96c2b transparent;
+}
+
+.scrollable-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+    background-color: #d96c2b;
+    border-radius: 4px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
 }

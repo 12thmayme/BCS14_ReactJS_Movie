@@ -74,15 +74,7 @@ const SeatsSelector = () => {
         setError("You must be logged in to place an order.");
         return;
       }
-  
-      const bookingData = {
-        maLichChieu: scheduleId,
-        danhSachVe: selectedSeats.map((seat) => ({
-          maGhe: seat.maGhe,
-          giaVe: seat.giaVe,
-        })),
-        taiKhoanNguoiDung: loggedInUser?.taiKhoan,
-      };
+
   
       const response = await axios.post(
         "https://movienew.cybersoft.edu.vn/api/QuanLyDatVe/DatVe",
