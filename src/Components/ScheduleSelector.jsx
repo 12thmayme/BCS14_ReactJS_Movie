@@ -61,7 +61,7 @@ const ScheduleSelector = () => {
 
   return (
     <>
-    <h1 class="schedule-selector-title text-center">Select Movies</h1>
+    <h1 className="schedule-selector-title text-center">Select Movies</h1>
     <div className="schedule-selector">
   {/* Cinema Selector */}
   <div className="cinema-selector">

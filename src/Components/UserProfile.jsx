@@ -93,7 +93,7 @@ const UserProfile = () => {
             </p>
           </div>
   
-          {/* Booking History */}
+          {/* Booking History
           {userData.thongTinDatVe && userData.thongTinDatVe.length > 0 ? (
             <div className="mt-4">
               <h4>Booking History</h4>
@@ -125,7 +125,7 @@ const UserProfile = () => {
             <p className="text-muted mt-4 text-center">
               No booking history available.
             </p>
-          )}
+          )} */}
         </div>
       ) : (
         <p className="text-center text-muted">No user data available.</p>
