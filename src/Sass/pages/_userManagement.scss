@@ -1,0 +1,16 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+.button_add-user {
+  text-decoration: none;
+  padding: 10px 30px;
+  background-color: $color-blue-1;
+  color: $color-text-1;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  display: inline-block;
+  transition: all 0.3s linear;
+  &:hover {
+    background-color: $color-text-hover;
+    color: $color-text-4;
+  }
+}

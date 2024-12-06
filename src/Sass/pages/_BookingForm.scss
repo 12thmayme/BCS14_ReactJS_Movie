@@ -1,0 +1,82 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+.booking-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    .booking-form__title {
+        font-size: 1.5rem;
+        color: #d96c2b;
+        text-align: center;
+    }
+    .booking-form__content {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        .cinema-logos {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            .cinema-logo {
+                cursor: pointer;
+                padding: 10px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                background-color: #fff;
+                text-align: center;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                img {
+                    max-width: 100%;
+                    height: auto;
+                }
+                &:hover,
+                &.active {
+                    transform: scale(1.05);
+                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+                }
+            }
+        }
+        .schedules {
+            flex: 2;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            h4 {
+                margin-bottom: 15px;
+                color: #555;
+            }
+            .schedule-list {
+                list-style: none;
+                padding: 0;
+                .schedule-item {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    padding: 10px;
+                    background-color: #f8f8f8;
+                    border-radius: 4px;
+                    span {
+                        font-size: 1rem;
+                    }
+                    .btn-book {
+                        background-color: #d96c2b;
+                        color: #fff;
+                        padding: 5px 10px;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        &:hover {
+                            background-color: #b55a21;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

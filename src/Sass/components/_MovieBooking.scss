@@ -1,0 +1,139 @@
+@use "../helper/variables" as *;
+.movie-booking-container {
+  display: flex;
+  background-color: transparent;
+  color: white;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 20px;
+}
+
+.movie-booking-title {
+  color: #d96c2b;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 28px;
+  margin: 30px 0;
+}
+
+// .cinema-system-column,
+// .branch-column,
+// .schedule-column {
+//     padding: 10px;
+//     border: 1px solid #ddd;
+//     border-radius: 8px;
+//     margin-right: 10px;
+// }
+.cinema-system-column {
+  flex: 1;
+  border-right: 1px solid black;
+  padding-right: 10px;
+}
+
+.cinema-system-column .cinema-logos {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cinema-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.cinema-logo img {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.3s;
+}
+
+.cinema-logo img:hover {
+  transform: scale(1.1);
+}
+
+.branch-column {
+  flex: 2;
+  border-right: 1px solid black;
+  padding: 0 10px;
+}
+
+.branch-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.branch-item {
+  color: black;
+  padding: 10px;
+  border-bottom: 1px solid #555;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.branch-item:hover {
+  background-color: #ebb217;
+}
+
+.schedule-column {
+  flex: 3;
+  padding-left: 10px;
+}
+
+.schedule-item {
+  margin-bottom: 20px;
+}
+
+.schedule-item h4 {
+  color: black;
+  margin-bottom: 10px;
+}
+
+.schedule-item ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+}
+
+.schedule-item li {
+  display: inline-block;
+}
+
+.schedule-item li button {
+  background-color: #d96c2b;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.schedule-item li button:hover {
+  background-color: #c8541b;
+}
+
+.scrollable-container {
+  max-height: 600px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #d96c2b transparent;
+}
+
+.scrollable-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-container::-webkit-scrollbar-thumb {
+  background-color: #d96c2b;
+  border-radius: 4px;
+}
+
+.scrollable-container::-webkit-scrollbar-track {
+  background-color: #f0f0f0;
+}

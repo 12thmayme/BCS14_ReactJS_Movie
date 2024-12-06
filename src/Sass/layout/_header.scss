@@ -1,6 +1,5 @@
 @use "../helper/variables" as *;
 @use "../helper/mixin" as *;
-
 .navbar {
   background-color: transparent;
   position: fixed;
@@ -9,7 +8,6 @@
   left: 0;
   z-index: 999;
   transition: background-color 0.5s linear;
-
   &::before {
     content: "";
     width: 100%;
@@ -108,7 +106,6 @@
   animation: slide-down 0.5s linear forwards;
   transition: all 0.3s linear;
 }
-
 @keyframes slide-down {
   0% {
     transform: translateY(-100%);
@@ -121,5 +118,83 @@
   }
   100% {
     transform: translateY(0%);
+  }
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    .dropdown {
+      position: relative;
+      button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 30px;
+        color: #d96c2b;
+        transition: color 0.3s;
+        &:hover {
+          color: #fff;
+        }
+      }
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        /* Below the button */
+        right: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        z-index: 1000;
+        list-style: none;
+        padding: 10px;
+        min-width: 150px;
+        a,
+        button {
+          display: block;
+          width: 100%;
+          text-align: left;
+          padding: 8px 12px;
+          background: none;
+          border: none;
+          color: #333;
+          font-size: 14px;
+          text-decoration: none;
+          transition: background-color 0.3s, color 0.3s;
+          &:hover {
+            background-color: #f8f8f8;
+            color: #d96c2b;
+          }
+        }
+      }
+      &:hover .dropdown-content {
+        display: block;
+        /* Show dropdown on hover */
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header__actions {
+    gap: 10px;
+    .dropdown button {
+      font-size: 20px;
+    }
+    .dropdown-content {
+      min-width: 120px;
+    }
+  }
+  .search-bar {
+    margin: 0 10px;
+    padding: 5px;
   }
 }

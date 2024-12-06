@@ -1,0 +1,94 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+.user-profile {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    h2 {
+        color: #d96c2b;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+    }
+    .card {
+        border: 1px solid #d96c2b;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        .card-header {
+            background-color: #d96c2b;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .card-body {
+            padding: 20px;
+            p {
+                font-size: 16px;
+                color: #333;
+                margin-bottom: 10px;
+                strong {
+                    color: #d96c2b;
+                }
+            }
+        }
+    }
+    .list-group {
+        margin-top: 20px;
+        .list-group-item {
+            background-color: #fdfdfd;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            padding: 15px;
+            transition: all 0.3s;
+            &:hover {
+                background-color: #ffe8d6;
+                border-color: #d96c2b;
+            }
+            p {
+                margin: 0;
+                font-size: 14px;
+                color: #555;
+                strong {
+                    color: #d96c2b;
+                }
+            }
+        }
+    }
+    .text-muted {
+        color: #999;
+        font-size: 14px;
+    }
+    .mt-4 h4 {
+        color: #d96c2b;
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-profile {
+        h2 {
+            font-size: 20px;
+        }
+        .card {
+            .card-header {
+                font-size: 18px;
+            }
+            .card-body {
+                p {
+                    font-size: 14px;
+                }
+            }
+        }
+        .list-group-item {
+            padding: 10px;
+            font-size: 12px;
+        }
+        .mt-4 h4 {
+            font-size: 16px;
+        }
+    }
+}

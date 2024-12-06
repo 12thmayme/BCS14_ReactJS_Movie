@@ -1,0 +1,69 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+
+.form-admin {
+  width: auto;
+  background-color: rgba($color-text-2, 0.3);
+  box-shadow: 0 0 10px 0 rgba(#fff, 0.3);
+  &_left {
+    background-image: url("https://t4.ftcdn.net/jpg/02/32/92/55/360_F_232925587_st4gM8b3TJHtjjddCIUNyVyFJmZqMmn4.jpg");
+    @include FlexBox(center, center);
+    h1 {
+      @include StyleText($fs-9, $color-text-1, $fw-3);
+      display: block;
+      transition: all 0.3s linear;
+      &:hover {
+        color: $color-text-hover;
+      }
+    }
+    p {
+      margin-left: 50px;
+    }
+  }
+  &_right {
+    padding: 50px;
+  }
+  .form-control {
+    outline: none;
+    display: block;
+    padding: 15px;
+    border: 1px solid rgba($color-dark-1, 0.5);
+    transition: all 0.3s linear;
+    &:hover {
+      border-color: rgba($color-dark-1, 0.7);
+      box-shadow: 0 0 5px 0 rgba($color-dark-1, 0.7);
+    }
+  }
+
+  .checkbox {
+    &_input {
+      display: none;
+      &:checked + .checkbox_label {
+        background-color: $color-blue-1;
+        .checkbox_spin {
+          transform: translateX(1.85rem);
+        }
+      }
+    }
+    &_label {
+      display: inline-block;
+      @include Size(4rem, 2rem);
+      background-color: #eee;
+      border-radius: 5rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.25s linear;
+    }
+    &_spin {
+      display: inline-block;
+      @include Size(1.8rem);
+      vertical-align: middle;
+      margin: 2px;
+      background-color: white;
+
+      border-radius: 4rem;
+      transition: 0.25s linear;
+      margin-right: 3rem;
+    }
+  }
+}
