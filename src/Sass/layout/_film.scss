@@ -2,9 +2,6 @@
 @use "../helper/mixin" as *;
 
 .list-film {
-  &_content {
-    background-color: rgba($color-blue-1, 0.3);
-  }
   h2 {
     padding: 20px;
   }

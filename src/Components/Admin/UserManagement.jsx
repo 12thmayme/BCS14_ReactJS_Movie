@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { admin_token, token } from "../../constants/token";
 const UserManagement = () => {
   let [user, setUser] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -13,8 +14,7 @@ const UserManagement = () => {
   };
   const getArrUser = async () => {
     let url = "";
-    let token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
+
     if (keyword) {
       url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=${keyword}`;
     } else {
@@ -85,11 +85,29 @@ const UserManagement = () => {
                     <td>{item.email}</td>
                     <td>{item.soDT}</td>
                     <td className="itemUser_button d-flex">
-                      <NavLink to="/" className="btn btn-outline-danger  mx-2">
+                      <button
+                        className="btn btn-outline-danger  mx-2"
+                        onClick={async () => {
+                          if (window.confirm("Bạn có chắc muốn xóa?")) {
+                            let res = await axios.delete(
+                              `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${item.taiKhoan}`,
+                              {
+                                headers: {
+                                  Authorization: `Bearer ${admin_token}`,
+                                  TokenCybersoft: token,
+                                  "Content-Type": "application/json",
+                                },
+                              }
+                            );
+                            alert("Xóa thành công");
+                            getArrUser();
+                          }
+                        }}
+                      >
                         <i className="fa-regular fa-trash-can"></i>
-                      </NavLink>
+                      </button>
                       <NavLink
-                        to={`/admin/edit-user/${index}`}
+                        to={`/admin/edit-user/${item.taiKhoan}`}
                         className=" btn btn-outline-success"
                       >
                         <i className="fa-regular fa-pen-to-square"></i>

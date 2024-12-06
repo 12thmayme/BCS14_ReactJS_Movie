@@ -18,43 +18,40 @@ import {
 } from "react-router-dom";
 import Detail from "./Components/Detail";
 import HomePage from "./pages/HomePage";
-import MovieList from "./Components/MovieList";
-import CinemaList from "./Components/CinemaList";
 import SearchPage from "./pages/SearchPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import FormTemplate from "./Template/FormTemplate";
 import { Navigate } from "react-router-dom";
-import UserProfile from "./pages/UserProfile";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import HomeTemplate from "./Template/HomeTemplate";
 import BookingPage from "./pages/BookingPage";
-import BookingForm from "./Components/BookingForm";
-import ScheduleSelector from "./Components/ScheduleSelector";
+import UserProfilePage from "./pages/UserProfilePage";
+import SeatSelector from "./Components/SeatsSelector";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         {/* Main Routes */}
-        <Route path="/" element={<HomeTemplate />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/search" element={<SearchPage />} />
+        <Route element={<HomeTemplate />}>
+          <Route path="/" element={<HomePage />} />
+          <Route index path="/home" element={<HomePage />} />
           <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
           <Route path="/booking/:id" element={<BookingPage />} />
+          <Route path="/schedule/:scheduleId" element={<SeatSelector />} />
         </Route>
 
         {/* User Routes */}
         <Route path="/user" element={<FormTemplate />}>
+          <Route path="profile" element={<UserProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
-          <Route path="profile" element={<UserProfile />} />
           <Route path="*" element={<Navigate to="/user/login" replace />} />
         </Route>
         {/* admin  */}
         <Route path="admin" element={<AdminTemplate />}>
-          <Route path="film" element={<Film />}></Route>
+          <Route index path="film" element={<Film />}></Route>
           <Route path="user-management" element={<UserManagement />}></Route>
           <Route path="edit-user" element={<EditUser />}></Route>
           <Route path="edit-user">

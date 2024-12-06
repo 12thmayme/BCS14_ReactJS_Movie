@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import { admin_token, token } from "../../constants/token";
 const Film = () => {
   const [arrMovie, setArrMovie] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -13,8 +14,7 @@ const Film = () => {
   };
   const getArrMovie = async () => {
     let url = "";
-    let token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
+
     if (keyword) {
       url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayDanhSachPhim?maNhom=GP01&tenPhim=${keyword}`;
     } else {
@@ -88,12 +88,28 @@ const Film = () => {
                         <p className="td-desc">{item.moTa}</p>
                       </td>
                       <td>
-                        <NavLink
-                          to="/"
+                        <button
+                          onClick={async () => {
+                            if (window.confirm("Bạn có chắc muốn xóa?")) {
+                              console.log(item.maPhim);
+                              let res = await axios.delete(
+                                `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=${item.maPhim}`,
+                                {
+                                  headers: {
+                                    Authorization: `Bearer ${admin_token}`,
+                                    TokenCybersoft: token,
+                                    "Content-Type": "application/json",
+                                  },
+                                }
+                              );
+                              alert("Xóa thành công");
+                              getArrMovie();
+                            }
+                          }}
                           className=" btn btn-outline-danger my-2 mx-2"
                         >
                           <i className="fa-regular fa-trash-can"></i>
-                        </NavLink>
+                        </button>
                         <NavLink
                           to={`/admin/product-form/${item.maPhim}`}
                           className=" btn btn-outline-success"

@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import MovieList from "../Components/MovieList";
 import Footer from "../Components/Footer";
 import Banner from "../Components/Banner";
+import MovieBooking from "../Components/MovieBooking"
 
 const HomePage = () => {
   return (
@@ -78,6 +79,7 @@ const HomePage = () => {
           </div>
         </section>
       </div>
+      <MovieBooking/>
     </div>
   );
 };

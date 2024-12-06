@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
 import { useFormik } from "formik";
-import { useParams, useMatch, useNavigate } from "react-router-dom";
+import { useMatch, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { admin_token, token } from "../../constants/token";
 const FormEdit = () => {
   const match = useMatch("/admin/product-form/:productID");
   const isEdit = !!match;
-  const accessToken = localStorage.getItem("accessToken");
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E";
   const navigate = useNavigate();
   let proFormik = useFormik({
     initialValues: {
@@ -20,41 +17,55 @@ const FormEdit = () => {
       sapChieu: false,
       dangChieu: false,
       hot: false,
-      danhGia: 5,
+      danhGia: "",
       hinhAnh: null,
-
-      deleted: false, //sản phẩm được xóa hay chưa
+      deleted: false,
     },
-    onSubmit: async (data) => {
-      console.log(data);
-      //Giả sử ban đầu là Add
-      let url =
-        "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh";
-      let method = "POST";
-      if (isEdit) {
-        // Nếu là edit => update giá tri của url và method thành Edit
-        url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload/${match.params.productID}`;
-        method = "POST";
-      }
+    onSubmit: async (values) => {
+      // Tạo FormData từ giá trị Formik
+      const formData = new FormData();
 
-      let res = await axios({
-        url,
-        method,
-        data,
+      // Thêm các giá trị Formik vào FormData
+      Object.entries(values).forEach(([key, value]) => {
+        if (key === "hinhAnh" && value) {
+          // Nếu là file (Blob), xử lý đặc biệt
+          formData.append("File", value, value.name);
+        } else {
+          formData.append(key, value);
+        }
       });
-      console.log(res.data);
-
-      // navigate("/admin/product", { state: "abc" }); //truyền ngầm giá trị
+      try {
+        // Add
+        let url =
+          "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh";
+        let method = "POST";
+        if (isEdit) {
+          //Edit
+          url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/CapNhatPhimUpload?MaPhim=${match.params.productID}`;
+          method = "POST";
+        }
+        let res = await axios({
+          url,
+          method,
+          data: formData,
+          headers: {
+            Authorization: `Bearer ${admin_token}`,
+            TokenCybersoft: token,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(res.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     },
   });
   const getArrMovie = async () => {
-    console.log(`${match.params.productID}`);
     let url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${match.params.productID}`;
 
     try {
       const res = await axios.get(url, {
         headers: {
-          Authorization: accessToken,
           TokenCybersoft: token,
           "Content-Type": "application/json",
         },
@@ -72,6 +83,10 @@ const FormEdit = () => {
       getArrMovie();
     }
   }, [isEdit]);
+  const handleFileChange = (event) => {
+    const file = event.currentTarget.files[0];
+    proFormik.setFieldValue("hinhAnh", file);
+  };
 
   return (
     <div className="form-admin row">
@@ -83,19 +98,6 @@ const FormEdit = () => {
       </div>
       <div className="form-admin_right col-7">
         <form className="form-edit_add" onSubmit={proFormik.handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="fontSize" className="form-label">
-              Font Size
-            </label>
-            <input
-              name="fontSize"
-              type="text"
-              className="form-control"
-              id="fontSize"
-              value={proFormik.values.fontSize}
-              onChange={proFormik.handleChange}
-            />
-          </div>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
               Name
@@ -165,6 +167,7 @@ const FormEdit = () => {
             <input
               name="dangChieu"
               value={proFormik.values.dangChieu}
+              checked={proFormik.values.dangChieu}
               onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
@@ -178,6 +181,7 @@ const FormEdit = () => {
             <input
               name="sapChieu"
               value={proFormik.values.sapChieu}
+              checked={proFormik.values.sapChieu}
               onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
@@ -191,6 +195,7 @@ const FormEdit = () => {
             <input
               name="hot"
               value={proFormik.values.hot}
+              checked={proFormik.values.hot}
               onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
@@ -202,8 +207,22 @@ const FormEdit = () => {
           </div>
 
           <div className="mb-3 checkbox">
-            <label htmlFor="numberStar" className="form-label">
-              Number Star
+            <label htmlFor="maNhom" className="form-label">
+              Mã Nhóm
+            </label>
+            <input
+              name="maNhom"
+              value={proFormik.values.maNhom}
+              onChange={proFormik.handleChange}
+              type="text"
+              className="form-control"
+              id="maNhom"
+              style={{ width: "100px" }}
+            />
+          </div>
+          <div className="mb-3 checkbox">
+            <label htmlFor="Evaluates" className="form-label">
+              Evaluates
             </label>
             <input
               name="danhGia"
@@ -211,14 +230,14 @@ const FormEdit = () => {
               onChange={proFormik.handleChange}
               type="number"
               className="form-control"
-              id="numberStar"
+              id="Evaluates"
               min={1}
-              max={5}
+              max={10}
               style={{ width: "100px" }}
             />
           </div>
           <button type="submit" className="btn btn-primary">
-            Add movie
+            {isEdit ? "Edit  " : "Add "} Movie
           </button>
         </form>
       </div>

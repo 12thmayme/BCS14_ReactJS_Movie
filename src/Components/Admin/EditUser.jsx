@@ -1,11 +1,70 @@
-import React from "react";
+import { useFormik } from "formik";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { useParams, useMatch } from "react-router-dom";
+import { useMatch } from "react-router-dom";
+import axios from "axios";
+import { admin_token, token } from "../../constants/token";
 const EditUser = () => {
   const match = useMatch("/admin/edit-user/:productID");
   const isEdit = !!match;
-  let param = useParams();
-  let { productID } = param;
+  let userFormik = useFormik({
+    initialValues: {
+      taiKhoan: "",
+      matKhau: "",
+      email: "",
+      soDT: "",
+      maNhom: "GP01",
+      maLoaiNguoiDung: "",
+      hoTen: "",
+      deleted: false,
+    },
+    onSubmit: async (data) => {
+      //add
+      let url =
+        "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/ThemNguoiDung";
+      let method = "POST";
+      if (isEdit) {
+        //edit
+        url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`;
+        method = "PUT";
+      }
+      let res = await axios({
+        url,
+        method,
+        data,
+        headers: {
+          Authorization: `Bearer ${admin_token}`,
+          TokenCybersoft: token,
+        },
+      });
+      console.log(res.data);
+      alert("Thêm thành công");
+    },
+  });
+  const getArrUser = async () => {
+    let url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/LayThongTinNguoiDung?taiKhoan=${match.params.productID}`;
+
+    try {
+      const res = await axios.post(url, null, {
+        headers: {
+          Authorization: `Bearer ${admin_token}`,
+          TokenCybersoft: token,
+        },
+      });
+
+      const data = res?.data?.content || [];
+      console.log(data);
+      userFormik.setValues(data);
+    } catch (error) {
+      console.error("Lỗi khi gọi API:", error);
+    }
+  };
+  useEffect(() => {
+    if (isEdit) {
+      getArrUser();
+    }
+  }, [isEdit]);
+
   return (
     <div className="form-admin row">
       <div className="form-admin_left col-5">
@@ -15,13 +74,15 @@ const EditUser = () => {
         </h1>
       </div>
       <div className="form-admin_right col-7">
-        <form className="form-edit_add">
+        <form className="form-edit_add" onSubmit={userFormik.handleSubmit}>
           <div className="mb-3">
             <label htmlFor="account" className="form-label">
               Account
             </label>
             <input
-              name="account"
+              name="taiKhoan"
+              value={userFormik.values.taiKhoan}
+              onChange={userFormik.handleChange}
               type="text"
               className="form-control"
               id="account"
@@ -32,10 +93,25 @@ const EditUser = () => {
               Full Name
             </label>
             <input
-              name="fullName"
+              name="hoTen"
+              value={userFormik.values.hoTen}
+              onChange={userFormik.handleChange}
               type="text"
               className="form-control"
-              id="fullName"
+              id="hot"
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">
+              Password
+            </label>
+            <input
+              name="matKhau"
+              value={userFormik.values.matKhau}
+              onChange={userFormik.handleChange}
+              type="password"
+              className="form-control"
+              id="password"
             />
           </div>
           <div className="mb-3">
@@ -44,6 +120,8 @@ const EditUser = () => {
             </label>
             <input
               name="email"
+              value={userFormik.values.email}
+              onChange={userFormik.handleChange}
               type="text"
               className="form-control"
               id="email"
@@ -54,30 +132,40 @@ const EditUser = () => {
               Phone
             </label>
             <input
-              name="phone"
+              name="soDT"
+              value={userFormik.values.soDT}
+              onChange={userFormik.handleChange}
               type="text"
               className="form-control"
               id="phone"
             />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              name="password"
-              type="date"
-              className="form-control"
-              id="password"
-            />
+            <div className="mb-3">
+              <label htmlFor="maNhom" className="form-label">
+                Id Group
+              </label>
+              <input
+                name="maNhom"
+                value={userFormik.values.maNhom}
+                onChange={userFormik.handleChange}
+                type="text"
+                className="form-control"
+                id="maNhom"
+              />
+            </div>
           </div>
           <div class="mb-3">
             <label for="" class="form-label">
               User Type
             </label>
-            <select class="form-select form-select-lg" name="type" id="type">
-              <option value="KH">Client</option>
-              <option value="QL">Admin</option>
+            <select
+              class="form-select form-select-lg"
+              value={userFormik.values.maLoaiNguoiDung}
+              onChange={userFormik.handleChange}
+              name="maLoaiNguoiDung"
+              id="type"
+            >
+              <option value="KhachHang">Client</option>
+              <option value="QuanTri">Admin</option>
             </select>
           </div>
           <div className="d-flex justify-content-between mt-5">
@@ -87,10 +175,8 @@ const EditUser = () => {
             </NavLink>
             <div>
               <button type="submit" className="btn btn-primary me-2">
-                Add User
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Save User
+                {isEdit ? "Save " : "Add "}
+                User
               </button>
             </div>
           </div>

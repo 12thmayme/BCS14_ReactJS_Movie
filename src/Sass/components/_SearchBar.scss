@@ -1,0 +1,95 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+.search-bar {
+  position: relative;
+  /* For proper positioning of the button and results */
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  margin: auto;
+  margin-right: 20px;
+  /* Center the search bar */
+  padding: 8px 16px;
+  /* Adjust padding for a balanced look */
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  /* Softer edges */
+  background-color: #ffffff;
+  /* Bright background for better contrast */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow for elevation */
+  width: 100%;
+  /* Restrict maximum width */
+  transition: box-shadow 0.3s ease;
+  &:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+  }
+  input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    background: transparent;
+    &::placeholder {
+      color: #aaa;
+      /* Softer placeholder color */
+      font-style: italic;
+      /* Distinguishable style */
+    }
+  }
+  button {
+    position: absolute;
+    right: 16px;
+    /* Align with padding */
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #d96c2b;
+    /* Accent color */
+    font-size: 20px;
+    &:hover {
+      color: adjust(#d96c2b, 10%);
+      /* Slightly darker on hover */
+    }
+  }
+}
+
+.search-results {
+  position: absolute;
+  top: 100%;
+  /* Align directly below the search bar */
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  width: 100%;
+  max-height: 250px;
+  /* Slightly taller for more results */
+  overflow-y: auto;
+  z-index: 100;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+  /* Spacing between the bar and results */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  li {
+    padding: 12px 16px;
+    /* Comfortable padding */
+    cursor: pointer;
+    color: #333;
+    font-weight: 400;
+    font-size: 14px;
+    &:hover {
+      background: #f9f9f9;
+      /* Subtle hover effect */
+    }
+    &:not(:last-child) {
+      border-bottom: 1px solid #eee;
+      /* Separator between items */
+    }
+  }
+}

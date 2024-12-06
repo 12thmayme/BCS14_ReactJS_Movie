@@ -11,11 +11,6 @@ const Sidebars = () => {
           </NavLink>
         </li>
 
-        <li>
-          <NavLink to="/" className="sidebar-item">
-            <i class="fa-solid fa-display"></i> Showtime
-          </NavLink>
-        </li>
         <li className="dropdown">
           <NavLink
             className="sidebar-item dropdown-toggle"

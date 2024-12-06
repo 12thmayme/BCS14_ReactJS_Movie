@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { token } from "../constants/token";
 
 const Register = () => {
   const [message, setMessage] = useState("");
@@ -9,14 +11,15 @@ const Register = () => {
     matKhau: "",
     email: "",
     soDt: "",
-    maNhom: "GP01", // Đây có thể là giá trị mặc định cho mã nhóm, tùy thuộc vào yêu cầu
+    maNhom: "GP01", // Default group
     hoTen: "",
   });
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const navigate = useNavigate();
 
-  // Cập nhật giá trị form khi người dùng thay đổi thông tin
+  // Update form values
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -25,46 +28,61 @@ const Register = () => {
     }));
   };
 
-  // Gửi dữ liệu đăng ký đến API
+  // Validate form data
+  const validateFormData = () => {
+    if (!formData.taiKhoan || formData.taiKhoan.trim().length === 0) {
+      setError("Username is required.");
+      return false;
+    }
+    if (!formData.email || !/\S+@\S+\.\S+/.test(formData.email)) {
+      setError("A valid email is required.");
+      return false;
+    }
+    if (!formData.matKhau || formData.matKhau.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      return false;
+    }
+    if (!formData.soDt || !/^\d+$/.test(formData.soDt)) {
+      setError("Phone number must be numeric.");
+      return false;
+    }
+    if (!formData.hoTen || formData.hoTen.trim().length === 0) {
+      setError("Full name is required.");
+      return false;
+    }
+    setError(""); // Clear any previous errors
+    return true;
+  };
+
+  // Submit registration form
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateFormData()) return; // Stop if validation fails
+
     try {
-      console.log("Sending data:", formData);
-      // const response = await axios.post(
-      //   "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy",
-      //   formData
-      // );
-      // if (response.data.statusCode === 200) {
-      //   setSuccess("Register Successfully!");
-      //   setError("");
-      const response = await fetch(
+      const response = await axios.post(
         "https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/DangKy",
+        formData,
         {
-          method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            accept: "application/json",
-            TokenCybersoft:
-              "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5Mb3AiOiJCb290Y2FtcCBTw6FuZyAxNCIsIkhldEhhblN0cmluZyI6IjIwLzA0LzIwMjUiLCJIZXRIYW5UaW1lIjoiMTc0NTEwNzIwMDAwMCIsIm5iZiI6MTcyMDcxNzIwMCwiZXhwIjoxNzQ1MjU0ODAwfQ.ausAdd72XdIU4PeMk3pQrAFbrDseUSOVNZMlQ4VSy-E",
+            TokenCybersoft: token, // Token from constants
           },
-          body: JSON.stringify(formData),
         }
       );
-      const data = await response?.json();
 
-      if (response.ok) {
-        setMessage("Đăng ký thành công!");
-        setMessageStyle("alert alert-success");
-      } else {
-        setMessage(`Đăng ký thất bại: ${data.message}`);
-        setMessageStyle("alert alert-danger");
+      if (response.data.statusCode === 200) {
+        setSuccess("Registration successful! Redirecting to login...");
+        setError("");
+
+        // Redirect to the login page after 2 seconds
+
+        navigate("/user/login");
       }
-    } catch (error) {
-      setError("There is an error!");
-      setError(error.message);
+    } catch (err) {
+      console.error("API Error:", err.response?.data || err.message);
+      setError(err.response?.data?.content || "An error occurred!");
       setSuccess("");
-      setMessage(`Error: ${error.message}`);
     }
   };
 
@@ -80,26 +98,27 @@ const Register = () => {
 
       <form className="register-form" onSubmit={handleSubmit}>
         <div className="register-form__group">
-          <label htmlFor="account" className="register-form__label">
-            Account
+          <label htmlFor="taiKhoan" className="register-form__label">
+            Username
           </label>
           <input
             type="text"
             className="register-form__input"
-            id="account"
+            id="taiKhoan"
             name="taiKhoan"
             value={formData.taiKhoan}
             onChange={handleChange}
-            placeholder="Enter your Account"
+            placeholder="Enter your Username"
             required
           />
         </div>
+
         <div className="register-form__group">
           <label htmlFor="email" className="register-form__label">
             Email
           </label>
           <input
-            type="text"
+            type="email"
             className="register-form__input"
             id="email"
             name="email"
@@ -121,7 +140,7 @@ const Register = () => {
             name="matKhau"
             value={formData.matKhau}
             onChange={handleChange}
-            placeholder="Enter your password"
+            placeholder="Enter your Password"
             required
           />
         </div>
@@ -137,14 +156,14 @@ const Register = () => {
             name="soDt"
             value={formData.soDt}
             onChange={handleChange}
-            placeholder="Enter your phone number"
+            placeholder="Enter your Phone Number"
             required
           />
         </div>
 
         <div className="register-form__group">
           <label htmlFor="hoTen" className="register-form__label">
-            Name
+            Full Name
           </label>
           <input
             type="text"
@@ -153,20 +172,20 @@ const Register = () => {
             name="hoTen"
             value={formData.hoTen}
             onChange={handleChange}
-            placeholder="Enter your password"
+            placeholder="Enter your Full Name"
             required
           />
         </div>
-        <div className="form-group remember-me">
-          <input type="checkbox" id="remember" />
-          <label htmlFor="remember">I agree with these conditions</label>
+
+        <div className="register-form__group__agree">
+          <input type="checkbox" id="terms" required />
+          <label htmlFor="terms">I agree with the terms and conditions</label>
         </div>
 
-        <button type="submit" className="register-form__button mb-3">
+        <button type="submit" className="register-form__button">
           Register
         </button>
       </form>
-      {message && <p className={messageStyle}>{message}</p>}
     </div>
   );
 };

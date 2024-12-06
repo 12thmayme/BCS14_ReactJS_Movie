@@ -35,7 +35,8 @@ const LogInAdmin = () => {
       const data = await response.json();
       console.log(data);
       setUser(data.taiKhoan);
-      localStorage.setItem("accessToken", data.accessToken);
+      alert("đăng nhập thành công");
+      localStorage.setItem("adminToken", data.content.accessToken);
       localStorage.setItem("userLogin", JSON.stringify(data));
     } catch (error) {
       console.error(error);
