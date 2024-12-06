@@ -56,20 +56,19 @@ if (!movie) {
 
   return (
     <div className="movie-detail-container">
+      <div className="movie-detail-container-upper">
        <div className="movie-detail__main">
        <div className="movie-detail__poster">
           <img src={movie.hinhAnh} alt={movie.tenPhim} />
         </div>
        </div>
-       {/* Right Section: Info */}
        <div className="movie-detail__info">
        <h2 className="movie-detail__title">{movie.tenPhim}</h2>
           <p className="movie-detail__description">{movie.moTa}</p>
-          <p>Rating: {movie.danhGia}/10</p>
+          <p className="movie-detail__rating">Rating: {movie.danhGia}/10</p>
        </div>
-       {/* Trailer Section */}
+       </div>
       <div className="movie-detail__trailer">
-        <h3 className="trailer-title">Trailer</h3>
       {movie.trailer ? (
         <iframe
           width="100%"

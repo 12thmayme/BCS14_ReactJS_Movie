@@ -31,7 +31,7 @@ const HomePage = () => {
                   </h3>
                 </div>
                 <span className="icon">
-                  <i class="fa-solid fa-clapperboard"></i>
+                  <i className="fa-solid fa-clapperboard"></i>
                 </span>
               </div>
             </div>
@@ -53,7 +53,7 @@ const HomePage = () => {
                   </h3>
                 </div>
                 <span className="icon">
-                  <i class="fa-solid fa-film"></i>
+                  <i className="fa-solid fa-film"></i>
                 </span>
               </div>
             </div>
@@ -72,7 +72,7 @@ const HomePage = () => {
                   <h3 className="title">Hot Movies</h3>
                 </div>
                 <span className="icon">
-                  <i class="fa-solid fa-camera"></i>
+                  <i className="fa-solid fa-camera"></i>
                 </span>
               </div>
             </div>

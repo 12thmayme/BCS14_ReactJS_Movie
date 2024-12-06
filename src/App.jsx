@@ -18,7 +18,6 @@ import {
 } from "react-router-dom";
 import Detail from "./Components/Detail";
 import HomePage from "./pages/HomePage";
-import SearchPage from "./pages/SearchPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import FormTemplate from "./Template/FormTemplate";
@@ -39,7 +38,8 @@ const App = () => {
           <Route index path="/home" element={<HomePage />} />
           <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
           <Route path="/booking/:id" element={<BookingPage />} />
-          <Route path="/schedule/:scheduleId" element={<SeatSelector />} />
+          <Route path="/home/:scheduleId" element={<SeatSelector />} />
+
         </Route>
 
         {/* User Routes */}

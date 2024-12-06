@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import { token } from "../constants/token";
+import { useNavigate } from "react-router-dom";
 
 const MovieBooking = () => {
   const [cinemaSystems, setCinemaSystems] = useState([]);
@@ -9,6 +10,7 @@ const MovieBooking = () => {
   const [selectedCinema, setSelectedCinema] = useState(null);
   const [selectedBranch, setSelectedBranch] = useState(null);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   // Fetch Cinema Systems
   useEffect(() => {
@@ -22,10 +24,16 @@ const MovieBooking = () => {
             },
           }
         );
-        setCinemaSystems(response.data.content || []);
+        const cinemas = response.data.content || [];
+        setCinemaSystems(cinemas);
+
+        // Automatically select the first cinema
+        if (cinemas.length > 0) {
+          setSelectedCinema(cinemas[0].maHeThongRap);
+        }
       } catch (err) {
         console.error("Error fetching cinema systems:", err);
-        setError("Unable to fetch cinema systems.");
+        setError("Unable to fetch cinema systems. Please try again later.");
       }
     };
 
@@ -46,10 +54,16 @@ const MovieBooking = () => {
             },
           }
         );
-        setBranches(response.data.content || []);
+        const branchList = response.data.content || [];
+        setBranches(branchList);
+
+        // Automatically select the first branch
+        if (branchList.length > 0) {
+          setSelectedBranch(branchList[0].maCumRap);
+        }
       } catch (err) {
         console.error("Error fetching branches:", err);
-        setError("Unable to fetch branches.");
+        setError("Unable to fetch branches. Please try again later.");
       }
     };
 
@@ -81,81 +95,86 @@ const MovieBooking = () => {
         setSchedules(branchData.danhSachPhim || []);
       } catch (err) {
         console.error("Error fetching schedules:", err);
-        setError("Unable to fetch schedules.");
+        setError("Unable to fetch schedules. Please try again later.");
       }
     };
 
     fetchSchedules();
   }, [selectedBranch, selectedCinema]);
 
+  // Handle Schedule Booking
+  const handleBookNowClick = useCallback((scheduleId) => {
+    navigate(`/home/${scheduleId}`);
+  }, [navigate]);
+
   return (
-    <div className="movie-booking-container">
-      <h2 className="text-center mb-4">Book Movie Tickets</h2>
-
-      {/* Cinema Systems */}
-      <div className="cinema-system-selector">
-        <h3>Select Cinema System</h3>
-        <div className="cinema-logos">
-          {cinemaSystems.map((cinema) => (
-            <div
-              key={cinema.maHeThongRap}
-              className={`cinema-logo ${
-                selectedCinema === cinema.maHeThongRap ? "active" : ""
-              }`}
-              onClick={() => setSelectedCinema(cinema.maHeThongRap)}
-            >
-              <img src={cinema.logo} alt={cinema.tenHeThongRap} />
-            </div>
-          ))}
+    <>
+      <h1 className="movie-booking-title text-center">Select Movies</h1>
+      <div className="movie-booking-container">
+  {/* Cinema Systems */}
+  <div className="cinema-system-column scrollable-container">
+    <div className="cinema-logos">
+      {cinemaSystems.map((cinema) => (
+        <div
+          key={cinema.maHeThongRap}
+          className={`cinema-logo ${
+            selectedCinema === cinema.maHeThongRap ? "active" : ""
+          }`}
+          onClick={() => setSelectedCinema(cinema.maHeThongRap)}
+        >
+          <img src={cinema.logo} alt={cinema.tenHeThongRap} />
         </div>
-      </div>
-
-      {/* Branches */}
-      {branches.length > 0 && (
-        <div className="branch-selector">
-          <h3>Select Branch</h3>
-          <ul>
-            {branches.map((branch) => (
-              <li
-                key={branch.maCumRap}
-                className={`branch-item ${
-                  selectedBranch === branch.maCumRap ? "active" : ""
-                }`}
-                onClick={() => setSelectedBranch(branch.maCumRap)}
-              >
-                {branch.tenCumRap}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Schedules */}
-      {schedules.length > 0 && (
-        <div className="schedule-list">
-          <h3>Available Schedules</h3>
-          <ul>
-            {schedules.map((movie) => (
-              <li key={movie.maPhim} className="schedule-item">
-                <h4>{movie.tenPhim}</h4>
-                <ul>
-                  {movie.lstLichChieuTheoPhim.map((schedule) => (
-                    <li key={schedule.maLichChieu}>
-                      <span>
-                        {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
-                      </span>
-                      <button className="btn btn-primary">Book Now</button>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {error && <p className="text-danger">{error}</p>}
+      ))}
     </div>
+  </div>
+
+  {/* Branches */}
+  <div className="branch-column scrollable-container">
+    {branches.length > 0 ? (
+      <ul>
+        {branches.map((branch) => (
+          <li
+            key={branch.maCumRap}
+            className={`branch-item ${
+              selectedBranch === branch.maCumRap ? "active" : ""
+            }`}
+            onClick={() => setSelectedBranch(branch.maCumRap)}
+          >
+            {branch.tenCumRap}
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No branches available.</p>
+    )}
+  </div>
+
+  {/* Schedules */}
+  <div className="schedule-column scrollable-container">
+    {schedules.length > 0 ? (
+      schedules.map((movie) => (
+        <div key={movie.maPhim} className="schedule-item">
+          <h4>{movie.tenPhim}</h4>
+          <ul>
+            {movie.lstLichChieuTheoPhim.map((schedule) => (
+              <li key={schedule.maLichChieu}>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handleBookNowClick(schedule.maLichChieu)}
+                >
+                  {new Date(schedule.ngayChieuGioChieu).toLocaleString()}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    ) : (
+      <p>No schedules available.</p>
+    )}
+  </div>
+</div>
+    </>
   );
 };
 
