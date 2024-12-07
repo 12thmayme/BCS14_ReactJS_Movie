@@ -27,6 +27,7 @@ import HomeTemplate from "./Template/HomeTemplate";
 import BookingPage from "./pages/BookingPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import SeatSelector from "./Components/SeatsSelector";
+import UserHistory from "./Components/UserHistory";
 
 const App = () => {
   return (
@@ -47,6 +48,7 @@ const App = () => {
           <Route path="profile" element={<UserProfilePage />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="history" element={<UserHistory />}></Route>
           <Route path="*" element={<Navigate to="/user/login" replace />} />
         </Route>
         {/* admin  */}

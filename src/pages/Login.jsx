@@ -95,7 +95,7 @@ const Login = () => {
         </button>
       </form>
 
-      <p className="additional-text mt-3">
+      <p className="additional-text mt-3 text-center">
         Don't have an account?{" "}
         <a href="/user/register" className="register-here">
           Register here
