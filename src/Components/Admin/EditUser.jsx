@@ -153,7 +153,7 @@ const EditUser = () => {
               />
             </div>
           </div>
-          <div class="mb-3">
+          <div className="mb-3">
             <label for="" class="form-label">
               User Type
             </label>
@@ -170,7 +170,7 @@ const EditUser = () => {
           </div>
           <div className="d-flex justify-content-between mt-5">
             <NavLink>
-              <i class="fa-solid fa-arrow-left"></i>
+              <i className="fa-solid fa-arrow-left"></i>
               Come Back
             </NavLink>
             <div>
