@@ -33,7 +33,11 @@ const UserHistory = () => {
           }
         );
 
-        if (response.data && response.data.content && response.data.content.thongTinDatVe) {
+        if (
+          response.data &&
+          response.data.content &&
+          response.data.content.thongTinDatVe
+        ) {
           setUserHistory(response.data.content.thongTinDatVe || []);
         } else {
           setError("No booking history available.");
@@ -67,7 +71,9 @@ const UserHistory = () => {
 
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Booking History</h2>
+      <h2 style={{ textAlign: "center", marginBottom: "20px",  color: "#d96c2b" }}>
+        Booking History
+      </h2>
       {userHistory.length > 0 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
           {userHistory.map((booking, index) => (
@@ -92,26 +98,70 @@ const UserHistory = () => {
                   borderRight: "1px solid #ddd",
                 }}
               />
-              <div style={{ flex: 1, padding: "15px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <h5 style={{ margin: "0", color: "#343a40" }}>{booking.tenPhim || "N/A"}</h5>
-                <p style={{ margin: "5px 0", fontSize: "14px", color: "#495057" }}>
-                  <strong style={{ color: "#212529" }}>Booking Date:</strong> {new Date(booking.ngayDat).toLocaleString() || "N/A"}
+              <div
+                style={{
+                  flex: 1,
+                  padding: "15px",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                }}
+              >
+                <h5 style={{ margin: "0", color: "#343a40" }}>
+                  {booking.tenPhim || "N/A"}
+                </h5>
+                <p
+                  style={{
+                    margin: "5px 0",
+                    fontSize: "14px",
+                    color: "#495057",
+                  }}
+                >
+                  <strong style={{ color: "#212529" }}>Booking Date:</strong>{" "}
+                  {new Date(booking.ngayDat).toLocaleString() || "N/A"}
                 </p>
-                <p style={{ margin: "5px 0", fontSize: "14px", color: "#495057" }}>
-                  <strong style={{ color: "#212529" }}>Seats:</strong> {booking.danhSachGhe.map((seat) => seat.tenGhe).join(", ") || "N/A"}
+                <p
+                  style={{
+                    margin: "5px 0",
+                    fontSize: "14px",
+                    color: "#495057",
+                  }}
+                >
+                  <strong style={{ color: "#212529" }}>Seats:</strong>{" "}
+                  {booking.danhSachGhe.map((seat) => seat.tenGhe).join(", ") ||
+                    "N/A"}
                 </p>
-                <p style={{ margin: "5px 0", fontSize: "14px", color: "#495057" }}>
-                  <strong style={{ color: "#212529" }}>Total Price:</strong> {booking.giaVe.toLocaleString()} VND
+                <p
+                  style={{
+                    margin: "5px 0",
+                    fontSize: "14px",
+                    color: "#495057",
+                  }}
+                >
+                  <strong style={{ color: "#212529" }}>Total Price:</strong>{" "}
+                  {(
+                    booking.giaVe * booking.danhSachGhe.length
+                  ).toLocaleString()}{" "}
+                  VND
                 </p>
-                <p style={{ margin: "5px 0", fontSize: "14px", color: "#495057" }}>
-                  <strong style={{ color: "#212529" }}>Theater:</strong> {booking.danhSachGhe[0]?.tenCumRap || "N/A"}
+                <p
+                  style={{
+                    margin: "5px 0",
+                    fontSize: "14px",
+                    color: "#495057",
+                  }}
+                >
+                  <strong style={{ color: "#212529" }}>Theater:</strong>{" "}
+                  {booking.danhSachGhe[0]?.tenCumRap || "N/A"}
                 </p>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <p style={{ textAlign: "center", color: "#6c757d" }}>No booking history available.</p>
+        <p style={{ textAlign: "center", color: "#6c757d" }}>
+          No booking history available.
+        </p>
       )}
     </div>
   );
