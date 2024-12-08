@@ -53,6 +53,11 @@ const UserHistory = () => {
     fetchUserHistory();
   }, []);
 
+  const totalExpenditure = userHistory.reduce(
+    (total, booking) => total + booking.giaVe * booking.danhSachGhe.length,
+    0
+  );
+
   if (loading) {
     return (
       <div style={{ textAlign: "center", marginTop: "50px" }}>
@@ -70,100 +75,68 @@ const UserHistory = () => {
   }
 
   return (
-    <div style={{ maxWidth: "800px", margin: "0 auto", padding: "20px" }}>
-      <h2 style={{ textAlign: "center", marginBottom: "20px",  color: "#d96c2b" }}>
-        Booking History
-      </h2>
-      {userHistory.length > 0 ? (
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+    <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "20px" }}>
+    <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#d96c2b" }}>
+      Booking History
+    </h2>
+    {userHistory.length > 0 ? (
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr style={{ backgroundColor: "#f8f9fa", borderBottom: "1px solid #ddd" }}>
+            <th style={{ padding: "10px", textAlign: "left" }}>Movie</th>
+            <th style={{ padding: "10px", textAlign: "center" }}>Image</th>
+            <th style={{ padding: "10px", textAlign: "left" }}>Booking Date</th>
+            <th style={{ padding: "10px", textAlign: "left" }}>Seats</th>
+            <th style={{ padding: "10px", textAlign: "right" }}>Total Price (VND)</th>
+            <th style={{ padding: "10px", textAlign: "left" }}>Theater</th>
+          </tr>
+        </thead>
+        <tbody>
           {userHistory.map((booking, index) => (
-            <div
-              key={index}
-              style={{
-                display: "flex",
-                backgroundColor: "#f8f9fa",
-                border: "1px solid #ddd",
-                borderRadius: "8px",
-                overflow: "hidden",
-                boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-              }}
-            >
-              <img
-                src={booking.hinhAnh}
-                alt={booking.tenPhim}
-                style={{
-                  width: "120px",
-                  height: "auto",
-                  objectFit: "cover",
-                  borderRight: "1px solid #ddd",
-                }}
-              />
-              <div
-                style={{
-                  flex: 1,
-                  padding: "15px",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                }}
-              >
-                <h5 style={{ margin: "0", color: "#343a40" }}>
-                  {booking.tenPhim || "N/A"}
-                </h5>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    fontSize: "14px",
-                    color: "#495057",
-                  }}
-                >
-                  <strong style={{ color: "#212529" }}>Booking Date:</strong>{" "}
-                  {new Date(booking.ngayDat).toLocaleString() || "N/A"}
-                </p>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    fontSize: "14px",
-                    color: "#495057",
-                  }}
-                >
-                  <strong style={{ color: "#212529" }}>Seats:</strong>{" "}
-                  {booking.danhSachGhe.map((seat) => seat.tenGhe).join(", ") ||
-                    "N/A"}
-                </p>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    fontSize: "14px",
-                    color: "#495057",
-                  }}
-                >
-                  <strong style={{ color: "#212529" }}>Total Price:</strong>{" "}
-                  {(
-                    booking.giaVe * booking.danhSachGhe.length
-                  ).toLocaleString()}{" "}
-                  VND
-                </p>
-                <p
-                  style={{
-                    margin: "5px 0",
-                    fontSize: "14px",
-                    color: "#495057",
-                  }}
-                >
-                  <strong style={{ color: "#212529" }}>Theater:</strong>{" "}
-                  {booking.danhSachGhe[0]?.tenCumRap || "N/A"}
-                </p>
-              </div>
-            </div>
+            <tr key={index} style={{ borderBottom: "1px solid #ddd" }}>
+              <td style={{ padding: "10px" }}>{booking.tenPhim || "N/A"}</td>
+              <td style={{ padding: "10px", textAlign: "center" }}>
+                <img
+                  src={booking.hinhAnh || ""}
+                  alt={booking.tenPhim}
+                  style={{ width: "50px", borderRadius: "5px" }}
+                />
+              </td>
+              <td style={{ padding: "10px" }}>
+                {new Date(booking.ngayDat).toLocaleString() || "N/A"}
+              </td>
+              <td style={{ padding: "10px" }}>
+                {booking.danhSachGhe.map((seat) => seat.tenGhe).join(", ") || "N/A"}
+              </td>
+              <td style={{ padding: "10px", textAlign: "right" }}>
+                {(booking.giaVe * booking.danhSachGhe.length).toLocaleString()}
+              </td>
+              <td style={{ padding: "10px" }}>
+                {booking.danhSachGhe[0]?.tenCumRap || "N/A"}
+              </td>
+            </tr>
           ))}
-        </div>
-      ) : (
-        <p style={{ textAlign: "center", color: "#6c757d" }}>
-          No booking history available.
-        </p>
-      )}
-    </div>
+          <tr style={{ fontWeight: "bold", backgroundColor: "#f1f1f1" }}>
+            <td colSpan="4" style={{ padding: "10px" }}>
+              Total Expenditure
+            </td>
+            <td colSpan="2" style={{ padding: "10px", textAlign: "right", color: "#d96c2b" }}>
+              {userHistory
+                .reduce((total, booking) => total + booking.giaVe * booking.danhSachGhe.length, 0)
+                .toLocaleString()}{" "}
+              VND
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    ) : (
+      <p style={{ textAlign: "center", color: "#6c757d" }}>
+        No booking history available.
+      </p>
+    )}
+  </div>
+  
+
   );
 };
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { token } from "../constants/token";
-import Modal from "./Modal"; // Ensure Modal component is correctly imported
+import Modal from "./Modal";
 
 const SeatsSelector = () => {
   const { scheduleId } = useParams();
@@ -10,11 +10,15 @@ const SeatsSelector = () => {
   const [seatData, setSeatData] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [timer, setTimer] = useState(300);
-  const [modalVisible, setModalVisible] = useState(false); // Booking success modal
-  const [errorModalVisible, setErrorModalVisible] = useState(false); // Error modal
-  const [errorMessage, setErrorMessage] = useState(""); // Error message for modal
+  const [modalConfig, setModalConfig] = useState({
+    isVisible: false,
+    title: "",
+    content: "",
+    actionText: "",
+    onAction: () => {},
+  });
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false); // Confirmation modal visibility
 
-  // Fetch seat data from API
   useEffect(() => {
     const fetchSeats = async () => {
       try {
@@ -32,7 +36,6 @@ const SeatsSelector = () => {
     fetchSeats();
   }, [scheduleId]);
 
-  // Timer countdown logic
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
@@ -41,7 +44,6 @@ const SeatsSelector = () => {
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
-  // Handle seat selection
   const handleSeatClick = (seat) => {
     if (seat.daDat) return;
 
@@ -52,25 +54,33 @@ const SeatsSelector = () => {
     );
   };
 
-  // Format time for display
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  // Calculate total price
   const totalPrice = selectedSeats.reduce((total, seat) => total + seat.giaVe, 0);
 
-  // Handle booking order
+  const confirmOrder = () => {
+    setConfirmationModalVisible(true); // Show confirmation modal
+  };
+
   const handleOrder = async () => {
+    setConfirmationModalVisible(false); // Close confirmation modal
+
     try {
       const userToken = localStorage.getItem("userToken");
       const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
 
       if (!userToken || !loggedInUser) {
-        setErrorMessage("You must be logged in to place an order.");
-        setErrorModalVisible(true);
+        setModalConfig({
+          isVisible: true,
+          title: "Error",
+          content: "You must be logged in to place an order.",
+          actionText: "Go to Login",
+          onAction: () => navigate("/user/login"),
+        });
         return;
       }
 
@@ -95,29 +105,27 @@ const SeatsSelector = () => {
       );
 
       if (response.status === 200) {
-        setModalVisible(true);
-        setSelectedSeats([]); // Reset seat selection
+        setModalConfig({
+          isVisible: true,
+          title: "Booking Successful!",
+          content: "Your seats have been booked successfully.",
+          actionText: "Go to Your Order History",
+          onAction: () => navigate("/user/history"),
+        });
+        setSelectedSeats([]);
       } else {
-        setErrorMessage("Booking failed. Please try again.");
-        setErrorModalVisible(true);
+        throw new Error("Booking failed.");
       }
     } catch (err) {
       console.error("Error booking seats:", err);
-      setErrorMessage("Booking failed. Please try again.");
-      setErrorModalVisible(true);
+      setModalConfig({
+        isVisible: true,
+        title: "Error",
+        content: "Booking failed. Please try again.",
+        actionText: "Retry",
+        onAction: () => setModalConfig((prev) => ({ ...prev, isVisible: false })),
+      });
     }
-  };
-
-  // Navigate to home
-  const navigateHome = () => {
-    setModalVisible(false);
-    navigate("/");
-  };
-
-  // Navigate to login
-  const navigateLogin = () => {
-    setErrorModalVisible(false);
-    navigate("/user/login");
   };
 
   return (
@@ -162,31 +170,31 @@ const SeatsSelector = () => {
         <button
           disabled={selectedSeats.length === 0}
           className="btn btn-primary"
-          onClick={handleOrder}
+          onClick={confirmOrder}
         >
           Proceed to Payment ({selectedSeats.length})
         </button>
         <p>Time Left: {formatTime(timer)}</p>
       </div>
 
-      {/* Success Modal */}
+      {/* Confirmation Modal */}
       <Modal
-        isVisible={modalVisible}
-        title="Booking Successful!"
-        content="Your seats have been booked successfully."
-        actionText="Go to Home"
-        onClose={() => setModalVisible(false)}
-        onAction={navigateHome}
+        isVisible={confirmationModalVisible}
+        title="Confirm Order"
+        content="Are you really sure to order?"
+        actionText="Confirm"
+        onClose={() => setConfirmationModalVisible(false)}
+        onAction={handleOrder}
       />
 
-      {/* Error Modal */}
+      {/* Unified Modal for Success/Error */}
       <Modal
-        isVisible={errorModalVisible}
-        title="Error"
-        content={errorMessage}
-        actionText="Go to Login"
-        onClose={() => setErrorModalVisible(false)}
-        onAction={navigateLogin}
+        isVisible={modalConfig.isVisible}
+        title={modalConfig.title}
+        content={modalConfig.content}
+        actionText={modalConfig.actionText}
+        onClose={() => setModalConfig((prev) => ({ ...prev, isVisible: false }))}
+        onAction={modalConfig.onAction}
       />
     </div>
   );
