@@ -3,11 +3,14 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import { token } from "../constants/token";
 import Modal from "./Modal";
+import { AiOutlineCheck } from "react-icons/ai";
+import { FaCouch } from "react-icons/fa";
 
 const SeatsSelector = () => {
   const { scheduleId } = useParams();
   const navigate = useNavigate();
   const [seatData, setSeatData] = useState([]);
+  const [movieInfo, setMovieInfo] = useState(null);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [timer, setTimer] = useState(300);
   const [modalConfig, setModalConfig] = useState({
@@ -17,7 +20,24 @@ const SeatsSelector = () => {
     actionText: "",
     onAction: () => {},
   });
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false); // Confirmation modal visibility
+  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+
+  const renderSeatIcon = (seat) => {
+    if (seat.daDat) {
+      return <AiOutlineCheck style={{ color: "#dc3545", fontSize: "18px" }} />;
+    }
+    if (selectedSeats.some((s) => s.maGhe === seat.maGhe)) {
+      return <FaCouch style={{ color: "#28a745", fontSize: "18px" }} />;
+    }
+    switch (seat.loaiGhe) {
+      case "VIP":
+        return <FaCouch style={{ color: "#ffc107", fontSize: "18px" }} />;
+      case "Couple":
+        return <FaCouch style={{ color: "#17a2b8", fontSize: "18px" }} />;
+      default:
+        return <FaCouch style={{ color: "#6c757d", fontSize: "18px" }} />;
+    }
+  };
 
   useEffect(() => {
     const fetchSeats = async () => {
@@ -28,7 +48,16 @@ const SeatsSelector = () => {
             headers: { TokenCybersoft: token },
           }
         );
-        setSeatData(response.data.content?.danhSachGhe || []);
+
+        const content = response.data.content;
+        console.log("API Response:", content); // Log the response for debugging
+
+        if (content) {
+          setSeatData(content.danhSachGhe || []);
+          setMovieInfo(content.thongTinPhim || []);
+        } else {
+          console.error("Invalid content structure:", content);
+        }
       } catch (err) {
         console.error("Error fetching seat data:", err);
       }
@@ -40,8 +69,7 @@ const SeatsSelector = () => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev > 0 ? prev - 1 : 0));
     }, 1000);
-
-    return () => clearInterval(interval); // Cleanup interval on unmount
+    return () => clearInterval(interval);
   }, []);
 
   const handleSeatClick = (seat) => {
@@ -49,8 +77,8 @@ const SeatsSelector = () => {
 
     setSelectedSeats((prevSelected) =>
       prevSelected.some((s) => s.maGhe === seat.maGhe)
-        ? prevSelected.filter((s) => s.maGhe !== seat.maGhe) // Deselect seat
-        : [...prevSelected, seat] // Select seat
+        ? prevSelected.filter((s) => s.maGhe !== seat.maGhe)
+        : [...prevSelected, seat]
     );
   };
 
@@ -63,11 +91,11 @@ const SeatsSelector = () => {
   const totalPrice = selectedSeats.reduce((total, seat) => total + seat.giaVe, 0);
 
   const confirmOrder = () => {
-    setConfirmationModalVisible(true); // Show confirmation modal
+    setConfirmationModalVisible(true);
   };
 
   const handleOrder = async () => {
-    setConfirmationModalVisible(false); // Close confirmation modal
+    setConfirmationModalVisible(false);
 
     try {
       const userToken = localStorage.getItem("userToken");
@@ -131,9 +159,8 @@ const SeatsSelector = () => {
   return (
     <div className="seat-selector__container">
       <div className="seat-selector__layout">
-        <h1>Seat Selector</h1>
-        <div className="seat-selector__">Screen</div>
-        <div className="seat-selector__">
+        <div className="seat-selector__screen">Screen</div>
+        <div className="seat-selector__grid">
           {seatData.length > 0 ? (
             seatData.map((seat) => (
               <button
@@ -148,7 +175,7 @@ const SeatsSelector = () => {
                 onClick={() => handleSeatClick(seat)}
                 disabled={seat.daDat}
               >
-                {seat.tenGhe}
+                {renderSeatIcon(seat)}
               </button>
             ))
           ) : (
@@ -158,15 +185,32 @@ const SeatsSelector = () => {
       </div>
 
       <div className="seat-selector__summary">
-        <h2>Selected Seats</h2>
-        <ul>
-          {selectedSeats.map((seat) => (
-            <li key={seat.maGhe}>
-              {seat.tenGhe} - {seat.giaVe.toLocaleString()} VND
-            </li>
-          ))}
-        </ul>
-        <h3>Total Price: {totalPrice.toLocaleString()} VND</h3>
+      <h3>Total Price: {totalPrice.toLocaleString()} VND</h3>
+
+        {movieInfo && (
+          <>
+           <p>
+              <strong>Theater:</strong> {movieInfo.tenCumRap}
+            </p>
+             <p>
+              <strong>Screen:</strong> {movieInfo.tenRap}
+            </p>
+            <p>
+              <strong>Date:</strong> {movieInfo.ngayChieu}
+            </p>
+            <p>
+              <strong>Time:</strong> {movieInfo.gioChieu}
+            </p>
+            <p>
+              <strong>Movie:</strong> {movieInfo.tenPhim}
+            </p>
+          </>
+        )}
+        {selectedSeats.length > 0 && (
+          <p>
+            <strong>Selected Seats:</strong> {selectedSeats.map((seat) => seat.tenGhe).join(", ")}
+          </p>
+        )}
         <button
           disabled={selectedSeats.length === 0}
           className="btn btn-primary"
@@ -174,10 +218,11 @@ const SeatsSelector = () => {
         >
           Proceed to Payment ({selectedSeats.length})
         </button>
-        <p>Time Left: {formatTime(timer)}</p>
+        <p>
+          <strong style = {{color: "red"}}>Time Left:</strong> {formatTime(timer)}
+        </p>
       </div>
 
-      {/* Confirmation Modal */}
       <Modal
         isVisible={confirmationModalVisible}
         title="Confirm Order"
@@ -187,13 +232,14 @@ const SeatsSelector = () => {
         onAction={handleOrder}
       />
 
-      {/* Unified Modal for Success/Error */}
       <Modal
         isVisible={modalConfig.isVisible}
         title={modalConfig.title}
         content={modalConfig.content}
         actionText={modalConfig.actionText}
-        onClose={() => setModalConfig((prev) => ({ ...prev, isVisible: false }))}
+        onClose={() =>
+          setModalConfig((prev) => ({ ...prev, isVisible: false }))
+        }
         onAction={modalConfig.onAction}
       />
     </div>
