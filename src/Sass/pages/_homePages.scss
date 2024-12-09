@@ -1,152 +1,40 @@
 @use "../helper/variables" as *;
 @use "../helper/mixin" as *;
-// banner
-.carousel-inner {
-    letter-spacing: 2px;
-    line-height: 3px;
-    .carousel-item {
-        img {
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            opacity: 0.8;
-        }
-    }
-    .carousel-caption {
-        top: 40%;
-        left: 120px;
-        text-align: left;
-        .carousel-sub_title {
-            @include StyleText($fs-5, $primary, $fw-3);
-        }
-        .carousel_title {
-            @include StyleText($fs-9, $color-text-1, $fw-bold);
-            line-height: 75px;
-            max-width: 650px;
-            text-transform: capitalize;
-        }
-        .carousel_desc {
-            padding: 20px 0;
-            margin-bottom: 40px;
-            @include StyleText($fs-3, $color-text-1, $fw-1);
-        }
-        .carousel_button {
-            text-decoration: none;
-            padding: 20px 40px;
-            background-color: $color-text-1;
-            @include StyleText($fs-1, $color-text-4, $fw-1);
-            margin-right: 20px;
-            transition: all 0.3s linear;
-        }
-        .info {
-            &:hover {
-                background-color: $primary;
-                color: $color-text-1;
-            }
-        }
-        .ticket {
-            background-color: $primary;
-            color: $color-text-1;
-            &:hover {
-                background-color: $color-text-1;
-                color: $secondary;
-            }
-        }
-    }
-    .right {
-        top: 30%;
-        right: 120px;
-        text-align: right;
-        line-height: 20px;
-        &::before {
-            content: "";
-            width: 175px;
-            height: 5px;
-            position: absolute;
-            right: 0;
-            top: 19%;
-            background-color: $primary;
-        }
-    }
-}
-
-// event
-.event {
-    padding: 50px;
-    .event-item {
-        padding: 25px 25px 25px 50px;
-        width: 100%;
-        position: relative;
-        background-color: $secondary;
-        &_background {
-            background-image: url("https://demo.ovatheme.com/aovis/wp-content/uploads/2023/03/bg-film-01.png");
-            position: absolute;
-            top: 0;
-            left: 0;
-            @include Size(100%);
-            background-position: center right;
-            background-size: cover;
-            background-repeat: no-repeat;
-            opacity: 0.15;
-        }
-        &_overlay {
-            background-color: rgba($secondary, 0.5);
-            position: absolute;
-            top: 0;
-            left: 0;
-            @include Size(100%);
-        }
-        &_subtitle {
-            @include StyleText($fs-1,
-            $color-text-1,
-            $fw-1);
-            opacity: 0.5;
-            margin-bottom: 0;
-        }
-        &_title {
-            @include StyleText($fs-6,
-            $color-text-1,
-            $fw-4);
-            max-width: 230px;
-        }
-        &_icon {
-            @include FlexBox(center,
-            center);
-            @include Size(100px);
-            border-radius: 50%;
-            background-color: $primary;
-            color: $color-text-1;
-            font-size: $fs-7;
-            margin-top: 25px;
-        }
-    }
-}
-
 .elementor-section {
     display: flex;
     justify-content: space-evenly;
-    /* Ensure equal spacing between columns */
     align-items: center;
     gap: 2%;
-    /* Add spacing between the columns */
     padding: 20px;
     background-color: #f9f9f9;
-    /* Light background for contrast */
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        padding: 15px;
+    }
+    @media (max-width: 480px) {
+        padding: 10px;
+    }
 }
 
 .elementor-container {
     display: flex;
     flex-wrap: wrap;
-    /* Enable wrapping for responsiveness */
     gap: 20px;
     width: 100%;
+    @media (max-width: 768px) {
+        gap: 15px;
+    }
+    @media (max-width: 480px) {
+        gap: 10px;
+    }
 }
 
 .elementor-column {
     flex: 0 0 33%;
-    /* Make each column approximately 30% of the total width */
     max-width: 32%;
-    /* Set a maximum width for each column */
     position: relative;
     text-align: center;
     border-radius: 10px;
@@ -154,18 +42,24 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
     background: #fff;
-    /* White background for the column */
-}
-
-.elementor-column {
     &:hover {
         transform: scale(1.05);
-        /* Slight zoom on hover */
         box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         .ova-icon-box .title {
             color: #ff6600;
-            /* Change the title color on hover */
         }
+    }
+    @media (max-width: 1024px) {
+        flex: 0 0 calc(50% - 20px);
+        max-width: calc(50% - 20px);
+    }
+    @media (max-width: 768px) {
+        flex: 0 0 calc(50% - 15px);
+        max-width: calc(50% - 15px);
+    }
+    @media (max-width: 480px) {
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
 
@@ -173,83 +67,88 @@
     position: relative;
     width: 100%;
     height: 300px;
-    /* Adjust the height as needed */
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-}
-
-.ova-icon-box .background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: grayscale(80%);
-    ;
-    /* Darken the background image */
-}
-
-.ova-icon-box .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    /* Semi-transparent overlay */
-}
-
-.ova-icon-box .content {
-    position: relative;
-    z-index: 2;
-}
-
-.ova-icon-box .title {
-    font-size: 28px;
-    font-weight: bold;
-    text-transform: uppercase;
-    margin: 0;
-    padding: 0;
-    letter-spacing: 1px;
-}
-
-.ova-icon-box .icon {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.ova-icon-box .icon i {
-    font-size: 35px;
-    color: #ff6600;
-    /* Icon color */
-    transition: color 0.3s ease;
-}
-
-
-/* Hover Effect */
-
-.ova-icon-box:hover .icon {
-    background-color: rgba(255, 102, 0, 0.9);
-    /* Slightly darker orange background */
-    transform: translateX(-50%) scale(1.2);
-    /* Increase size on hover */
-}
-
-.ova-icon-box:hover .icon i {
-    color: #fff;
-    /* Change icon color to white */
+    @media (max-width: 768px) {
+        height: 250px;
+    }
+    @media (max-width: 480px) {
+        height: 200px;
+    }
+    .background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(80%);
+    }
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+    }
+    .content {
+        position: relative;
+        z-index: 2;
+    }
+    .title {
+        font-size: 28px;
+        font-weight: bold;
+        text-transform: uppercase;
+        margin: 0;
+        padding: 0;
+        letter-spacing: 1px;
+        @media (max-width: 768px) {
+            font-size: 24px;
+        }
+        @media (max-width: 480px) {
+            font-size: 20px;
+        }
+    }
+    .icon {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        @media (max-width: 768px) {
+            padding: 15px;
+        }
+        @media (max-width: 480px) {
+            padding: 10px;
+        }
+        i {
+            font-size: 35px;
+            color: #ff6600;
+            transition: color 0.3s ease;
+            @media (max-width: 768px) {
+                font-size: 30px;
+            }
+            @media (max-width: 480px) {
+                font-size: 25px;
+            }
+        }
+        &:hover {
+            background-color: rgba(255, 102, 0, 0.9);
+            transform: translateX(-50%) scale(1.2);
+            i {
+                color: #fff;
+            }
+        }
+    }
 }

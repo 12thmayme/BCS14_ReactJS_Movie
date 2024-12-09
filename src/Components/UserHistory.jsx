@@ -75,8 +75,8 @@ const UserHistory = () => {
   }
 
   return (
-    <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "20px" }}>
-    <h2 style={{ textAlign: "center", marginBottom: "20px", color: "#d96c2b" }}>
+    <div class="booking-history-container">
+    <h2>
       Booking History
     </h2>
     {userHistory.length > 0 ? (

@@ -1,0 +1,92 @@
+    @use "../helper/variables" as *;
+    @use "../helper/mixin" as *;
+    .booking-history-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .booking-history-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #d96c2b;
+        font-size: 24px;
+    }
+    
+    .booking-history-container table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .booking-history-container th,
+    .booking-history-container td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    
+    .booking-history-container th {
+        background-color: #f8f9fa;
+        text-align: center;
+    }
+    
+    .booking-history-container td img {
+        width: 50px;
+        border-radius: 5px;
+    }
+    
+    .booking-history-container tr:last-child {
+        font-weight: bold;
+        background-color: #f1f1f1;
+    }
+    
+    .booking-history-container tr:last-child td {
+        color: #d96c2b;
+    }
+    
+    .booking-history-container .no-history {
+        text-align: center;
+        color: #6c757d;
+        font-size: 16px;
+    }
+    /* Responsive Styles */
+    
+    @media (max-width: 768px) {
+        .booking-history-container h2 {
+            font-size: 20px;
+        }
+        .booking-history-container th,
+        .booking-history-container td {
+            font-size: 14px;
+            padding: 8px;
+        }
+        .booking-history-container td img {
+            width: 40px;
+        }
+        .booking-history-container tr:last-child td {
+            font-size: 14px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .booking-history-container h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+        .booking-history-container table {
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .booking-history-container th,
+        .booking-history-container td {
+            font-size: 12px;
+            padding: 6px;
+        }
+        .booking-history-container td img {
+            width: 30px;
+        }
+        .booking-history-container tr:last-child td {
+            font-size: 12px;
+        }
+    }

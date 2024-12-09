@@ -57,51 +57,54 @@ const Login = () => {
   };
 
   return (
+    <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+
     <div className="login-container">
-      <h2 className="login-title">Login</h2>
-      {error && <div className="alert alert-danger">{error}</div>}
+        <h2 className="login-title text-center">Login</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
 
-      <form className="login-form" onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="taiKhoan">Username</label>
-          <input
-            type="text"
-            id="taiKhoan"
-            name="taiKhoan"
-            value={formData.taiKhoan}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="Enter your username"
-            required
-          />
-        </div>
+        <form className="login-form" onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+                <label htmlFor="taiKhoan">Username</label>
+                <input
+                    type="text"
+                    id="taiKhoan"
+                    name="taiKhoan"
+                    value={formData.taiKhoan}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Enter your username"
+                    required
+                />
+            </div>
 
-        <div className="form-group">
-          <label htmlFor="matKhau">Password</label>
-          <input
-            type="password"
-            id="matKhau"
-            name="matKhau"
-            value={formData.matKhau}
-            onChange={handleChange}
-            className="form-control"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
+            <div className="form-group mb-3">
+                <label htmlFor="matKhau">Password</label>
+                <input
+                    type="password"
+                    id="matKhau"
+                    name="matKhau"
+                    value={formData.matKhau}
+                    onChange={handleChange}
+                    className="form-control"
+                    placeholder="Enter your password"
+                    required
+                />
+            </div>
 
-        <button type="submit" className="btn-submit" disabled={loading}>
-          {loading ? "Logging in..." : "Log in"}
-        </button>
-      </form>
+            <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                {loading ? "Logging in..." : "Log in"}
+            </button>
+        </form>
 
-      <p className="additional-text mt-3 text-center">
-        Don't have an account?{" "}
-        <a href="/user/register" className="register-here">
-          Register here
-        </a>
-      </p>
+        <p className="additional-text mt-3 text-center">
+            Don't have an account?{" "}
+            <a href="/user/register" className="register-here text-decoration-none">
+                Register here
+            </a>
+        </p>
     </div>
+</body>
   );
 };
 

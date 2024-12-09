@@ -9,6 +9,12 @@
         font-weight: bold;
         margin-bottom: 20px;
         text-transform: uppercase;
+        @media (max-width: 768px) {
+            font-size: 20px;
+        }
+        @media (max-width: 480px) {
+            font-size: 18px;
+        }
     }
     .card {
         border: 1px solid #d96c2b;
@@ -20,6 +26,12 @@
             font-size: 20px;
             font-weight: bold;
             text-transform: uppercase;
+            @media (max-width: 768px) {
+                font-size: 18px;
+            }
+            @media (max-width: 480px) {
+                font-size: 16px;
+            }
         }
         .card-body {
             padding: 20px;
@@ -29,6 +41,12 @@
                 margin-bottom: 10px;
                 strong {
                     color: #d96c2b;
+                }
+                @media (max-width: 768px) {
+                    font-size: 14px;
+                }
+                @media (max-width: 480px) {
+                    font-size: 12px;
                 }
             }
         }
@@ -53,42 +71,55 @@
                 strong {
                     color: #d96c2b;
                 }
+                @media (max-width: 768px) {
+                    font-size: 12px;
+                }
+                @media (max-width: 480px) {
+                    font-size: 11px;
+                }
+            }
+            @media (max-width: 768px) {
+                padding: 10px;
+            }
+            @media (max-width: 480px) {
+                padding: 8px;
             }
         }
     }
     .text-muted {
         color: #999;
         font-size: 14px;
+        @media (max-width: 768px) {
+            font-size: 12px;
+        }
+        @media (max-width: 480px) {
+            font-size: 11px;
+        }
     }
     .mt-4 h4 {
         color: #d96c2b;
         margin-bottom: 15px;
         font-size: 18px;
         font-weight: bold;
+        @media (max-width: 768px) {
+            font-size: 16px;
+        }
+        @media (max-width: 480px) {
+            font-size: 14px;
+        }
     }
 }
 
 @media (max-width: 768px) {
     .user-profile {
-        h2 {
-            font-size: 20px;
-        }
-        .card {
-            .card-header {
-                font-size: 18px;
-            }
-            .card-body {
-                p {
-                    font-size: 14px;
-                }
-            }
-        }
-        .list-group-item {
-            padding: 10px;
-            font-size: 12px;
-        }
-        .mt-4 h4 {
-            font-size: 16px;
-        }
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-profile {
+        margin-top: 20px;
+        margin-bottom: 20px;
     }
 }

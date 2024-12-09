@@ -1,76 +1,63 @@
 @use "../helper/variables";
 .movie-detail-container {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  .movie-detail__main {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 20px;
-    margin-top: 50px;
-    /* Spacing between rows (upper and trailer sections) */
-  }
+    padding: 20px;
+    border-radius: 10px;
+    .movie-detail__main {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-top: 50px;
+    }
 }
 
 .movie-detail-container-upper {
-  display: flex;
-  /* Set flex layout for the upper section */
-  gap: 20px;
-  /* Space between the poster and info */
-  align-items: flex-start;
-  /* Align content to the top */
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
 }
 
 .movie-detail__main {
-  flex: 1;
-  /* Allow the poster section to take up proportional space */
-  max-width: 300px;
-  /* Optional: Limit the size of the poster */
+    flex: 1;
+    max-width: 300px;
 }
 
 .movie-detail__poster img {
-  width: 100%;
-  /* Make the image responsive */
-  height: auto;
-  border-radius: 8px;
-  /* Optional: Add rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* Optional: Add shadow */
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .movie-detail__info {
-  flex: 2;
-  /* Allow the info section to take more space */
+    flex: 2;
 }
 
 .movie-detail__rating {
-  color: #d96c2b;
+    color: #d96c2b;
 }
 
 .movie-detail__title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #d96c2b;
-  /* Adjust color as needed */
-  margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #d96c2b;
+    margin-bottom: 10px;
 }
 
 .movie-detail__description {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 15px;
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 15px;
 }
 
 .movie-detail__trailer {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .trailer-title {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
 }
