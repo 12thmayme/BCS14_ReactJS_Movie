@@ -59,6 +59,10 @@
   &-title {
     @include StyleText($fs-5, $color-text-1, $fs-1);
     margin-bottom: 20px;
+    transition: all 0.3s linear;
+    &:hover {
+      color: $primary;
+    }
   }
   &-item {
     text-decoration: none;

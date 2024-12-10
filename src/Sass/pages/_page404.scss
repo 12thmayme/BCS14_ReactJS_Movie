@@ -1,0 +1,10 @@
+@use "../helper/variables" as *;
+@use "../helper/mixin" as *;
+.p404 {
+  text-align: center;
+  padding: 20vh;
+  color: $primary;
+  &_subtitle {
+    @include StyleText($fs-3, $color-text-4, $fw-1);
+  }
+}

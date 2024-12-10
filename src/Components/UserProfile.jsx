@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { token } from "../constants/token";
+
 import { useNavigate } from "react-router-dom";
+
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
@@ -28,6 +30,7 @@ const UserProfile = () => {
         }
 
         const url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=${localUser.taiKhoan}`;
+
         const response = await axios.get(url, {
           headers: {
             TokenCybersoft: token,
@@ -207,6 +210,7 @@ const UserProfile = () => {
               </div>
             )}
           </div>
+
         </div>
       ) : (
         <p className="text-center text-muted">No user data available.</p>

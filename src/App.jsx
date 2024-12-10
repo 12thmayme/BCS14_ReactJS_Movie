@@ -7,16 +7,7 @@ import AdminTemplate from "./Components/Admin/AdminTemplate";
 import FormEdit from "./Components/Admin/FormEdit";
 import EditUser from "./Components/Admin/EditUser";
 import UserManagement from "./Components/Admin/UserManagement";
-import RegisterAdmin from "./Components/Admin/RegisterAdmin";
-import LogInAdmin from "./Components/Admin/LogInAdmin";
-
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
-import Detail from "./Components/Detail";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -27,11 +18,17 @@ import HomeTemplate from "./Template/HomeTemplate";
 import BookingPage from "./pages/BookingPage";
 import UserProfilePage from "./pages/UserProfilePage";
 import SeatSelector from "./Components/SeatsSelector";
+
 import UserHistory from "./Components/UserHistory";
+
+import AddShowTime from "./Components/Admin/AddShowTime";
+// customBrowsẻHistory
+import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
+import { navigateHistory } from "./util/setting";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <HistoryRouter history={navigateHistory}>
       <Routes>
         {/* Main Routes */}
         <Route element={<HomeTemplate />}>
@@ -40,7 +37,6 @@ const App = () => {
           <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
           <Route path="/booking/:id" element={<BookingPage />} />
           <Route path="/home/:scheduleId" element={<SeatSelector />} />
-
         </Route>
 
         {/* User Routes */}
@@ -63,11 +59,10 @@ const App = () => {
           <Route path="product-form">
             <Route path=":productID" element={<FormEdit />}></Route>
           </Route>
-          <Route path="register-admin" element={<RegisterAdmin />}></Route>
-          <Route path="login-admin" element={<LogInAdmin />}></Route>
+          <Route path="add-showtime" element={<AddShowTime />}></Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HistoryRouter>
     //  <ScheduleSelector/>
   );
 };
