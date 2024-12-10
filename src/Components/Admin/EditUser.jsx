@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useMatch } from "react-router-dom";
 import axios from "axios";
-import { admin_token, token } from "../../constants/token";
+import { accessToken, token } from "../../constants/token";
 const EditUser = () => {
+  const navigate = useNavigate();
   const match = useMatch("/admin/edit-user/:productID");
   const isEdit = !!match;
   let userFormik = useFormik({
@@ -26,19 +27,24 @@ const EditUser = () => {
       if (isEdit) {
         //edit
         url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/CapNhatThongTinNguoiDung`;
-        method = "PUT";
+        method = "POST";
       }
-      let res = await axios({
-        url,
-        method,
-        data,
-        headers: {
-          Authorization: `Bearer ${admin_token}`,
-          TokenCybersoft: token,
-        },
-      });
-      console.log(res.data);
-      alert("Thêm thành công");
+      try {
+        let res = await axios({
+          url,
+          method,
+          data,
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            TokenCybersoft: token,
+          },
+        });
+        console.log(res.data);
+        navigate("/admin/user-management");
+      } catch (err) {
+        alert("You do not have permission");
+        navigate("/admin/user-management");
+      }
     },
   });
   const getArrUser = async () => {
@@ -47,7 +53,7 @@ const EditUser = () => {
     try {
       const res = await axios.post(url, null, {
         headers: {
-          Authorization: `Bearer ${admin_token}`,
+          Authorization: `Bearer ${accessToken}`,
           TokenCybersoft: token,
         },
       });
@@ -56,6 +62,7 @@ const EditUser = () => {
       console.log(data);
       userFormik.setValues(data);
     } catch (error) {
+      alert("Bạn không đủ quyền truy cập");
       console.error("Lỗi khi gọi API:", error);
     }
   };

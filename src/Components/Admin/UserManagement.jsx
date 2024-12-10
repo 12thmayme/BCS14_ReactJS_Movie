@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { admin_token, token } from "../../constants/token";
+import { accessToken, token } from "../../constants/token";
 const UserManagement = () => {
   let [user, setUser] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -93,7 +93,7 @@ const UserManagement = () => {
                               `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${item.taiKhoan}`,
                               {
                                 headers: {
-                                  Authorization: `Bearer ${admin_token}`,
+                                  Authorization: `Bearer ${accessToken}`,
                                   TokenCybersoft: token,
                                   "Content-Type": "application/json",
                                 },
@@ -101,6 +101,8 @@ const UserManagement = () => {
                             );
                             alert("Xóa thành công");
                             getArrUser();
+                          } else {
+                            alert("Bạn không đủ quyền");
                           }
                         }}
                       >

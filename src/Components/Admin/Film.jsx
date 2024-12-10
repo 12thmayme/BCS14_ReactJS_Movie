@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useSearchParams } from "react-router-dom";
 import axios from "axios";
-import { admin_token, token } from "../../constants/token";
+import { accessToken, token } from "../../constants/token";
 const Film = () => {
   const [arrMovie, setArrMovie] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -32,6 +32,7 @@ const Film = () => {
       const data = res?.data?.content || [];
       setArrMovie(data);
     } catch (error) {
+      alert("Bạn không đủ quyền truy cập");
       console.error("Lỗi khi gọi API:", error);
     }
   };
@@ -79,7 +80,7 @@ const Film = () => {
                     <tr key={item.maPhim}>
                       <td>{item.maPhim}</td>
                       <td>
-                        <img src={item.hinhAnh} width={50} alt="..." />
+                        <img src={item.hinhAnh} width={50} alt="hinhAnh" />
                       </td>
                       <td className="td-name">
                         <p>{item.tenPhim}</p>
@@ -89,14 +90,14 @@ const Film = () => {
                       </td>
                       <td>
                         <button
+                          className=" btn btn-outline-danger my-2 mx-2"
                           onClick={async () => {
                             if (window.confirm("Bạn có chắc muốn xóa?")) {
-                              console.log(item.maPhim);
                               let res = await axios.delete(
                                 `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=${item.maPhim}`,
                                 {
                                   headers: {
-                                    Authorization: `Bearer ${admin_token}`,
+                                    Authorization: `Bearer ${accessToken}`,
                                     TokenCybersoft: token,
                                     "Content-Type": "application/json",
                                   },
@@ -104,9 +105,10 @@ const Film = () => {
                               );
                               alert("Xóa thành công");
                               getArrMovie();
+                            } else {
+                              alert("Bạn không đủ quyền ");
                             }
                           }}
-                          className=" btn btn-outline-danger my-2 mx-2"
                         >
                           <i className="fa-regular fa-trash-can"></i>
                         </button>

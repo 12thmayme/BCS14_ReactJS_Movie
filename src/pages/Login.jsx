@@ -36,10 +36,9 @@ const Login = () => {
           },
         }
       );
-
       if (response.data.statusCode === 200) {
         const { accessToken, ...userInfo } = response.data.content;
-
+        console.log(response.data.content);
         // Save token and user information
         localStorage.setItem("userToken", accessToken);
         localStorage.setItem("loggedInUser", JSON.stringify(userInfo));

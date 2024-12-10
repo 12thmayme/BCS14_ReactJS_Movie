@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useFormik } from "formik";
 import { useMatch, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { admin_token, token } from "../../constants/token";
+import { accessToken, token } from "../../constants/token";
 const FormEdit = () => {
   const match = useMatch("/admin/product-form/:productID");
   const isEdit = !!match;
@@ -24,18 +24,18 @@ const FormEdit = () => {
     onSubmit: async (values) => {
       // Tạo FormData từ giá trị Formik
       const formData = new FormData();
-
+      console.log(formData);
       // Thêm các giá trị Formik vào FormData
       Object.entries(values).forEach(([key, value]) => {
         if (key === "hinhAnh" && value) {
-          // Nếu là file (Blob), xử lý đặc biệt
-          formData.append("File", value, value.name);
+          formData.append("file", value, "png");
         } else {
           formData.append(key, value);
         }
       });
       try {
         // Add
+
         let url =
           "https://movienew.cybersoft.edu.vn/api/QuanLyPhim/ThemPhimUploadHinh";
         let method = "POST";
@@ -49,17 +49,21 @@ const FormEdit = () => {
           method,
           data: formData,
           headers: {
-            Authorization: `Bearer ${admin_token}`,
+            Authorization: `Bearer ${accessToken}`,
             TokenCybersoft: token,
             "Content-Type": "multipart/form-data",
           },
         });
         console.log(res.data);
+        navigate("/admin/film");
       } catch (error) {
         console.error("Error:", error);
+        alert("You do not have permission");
+        navigate("/admin/user-management");
       }
     },
   });
+
   const getArrMovie = async () => {
     let url = `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/LayThongTinPhim?MaPhim=${match.params.productID}`;
 
@@ -73,19 +77,24 @@ const FormEdit = () => {
 
       const data = res?.data?.content || [];
       proFormik.setValues(data);
-      console.log(data);
+      console.log({ ...data, hinhAnh: null });
     } catch (error) {
       console.error("Lỗi khi gọi API:", error);
     }
   };
+
   useEffect(() => {
     if (isEdit) {
       getArrMovie();
     }
   }, [isEdit]);
+
   const handleFileChange = (event) => {
     const file = event.currentTarget.files[0];
-    proFormik.setFieldValue("hinhAnh", file);
+    console.log(file);
+    if (file) {
+      proFormik.setFieldValue("hinhAnh", file);
+    }
   };
 
   return (
@@ -138,7 +147,7 @@ const FormEdit = () => {
             />
           </div>
           <div className="mb-3">
-            <label htmlFor="movieData" className="form-label">
+            <label htmlFor="ngayKhoiChieu" className="form-label">
               Movie Date
             </label>
             <input
@@ -147,21 +156,35 @@ const FormEdit = () => {
               onChange={proFormik.handleChange}
               type="text"
               className="form-control"
-              id="movieData"
+              id="ngayKhoiChieu"
             />
           </div>
           <div className="mb-3">
             <label htmlFor="movieData" className="form-label">
               Image
             </label>
-            <input
-              name="hinhAnh"
-              value={proFormik.values.hinhAnh}
-              onChange={proFormik.handleChange}
-              type="text"
-              className="form-control"
-              id="movieData"
-            />
+            <div className=" d-flex align-items-center">
+              {isEdit && (
+                <img
+                  src={proFormik.values.hinhAnh}
+                  alt="hinh anh"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+
+              <input
+                name="hinhAnh"
+                onChange={handleFileChange}
+                type="file"
+                className="form-control ms-2"
+                id="hinhAnh"
+                style={{ maxHeight: "60px" }}
+              />
+            </div>
           </div>
           <div className="mb-3 checkbox">
             <input
@@ -171,9 +194,9 @@ const FormEdit = () => {
               onChange={proFormik.handleChange}
               type="checkbox"
               className="checkbox_input"
-              id="isShowing"
+              id="dangChieu"
             />
-            <label htmlFor="isShowing" className="form-label checkbox_label">
+            <label htmlFor="dangChieu" className="form-label checkbox_label">
               <span class="checkbox_spin"></span>: Is Showing
             </label>
           </div>

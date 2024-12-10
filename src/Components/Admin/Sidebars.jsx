@@ -3,11 +3,22 @@ import { NavLink } from "react-router-dom";
 const Sidebars = () => {
   return (
     <div className="sidebar border border-right col-md-3 col-lg-2  ">
-      <h2 className="sidebar-title">Cyber Movie</h2>
+      <NavLink
+        to="/"
+        className="sidebar-title"
+        style={{ textDecoration: "none" }}
+      >
+        Cyber Movie
+      </NavLink>
       <ul className="list-sidebar">
         <li>
           <NavLink to="/admin/user-management" className="sidebar-item">
             <i class="fa-regular fa-user"></i> Users
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/admin/add-showtime" className="sidebar-item">
+            <i class="fa-solid fa-display"></i> Showtime
           </NavLink>
         </li>
 

@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { token } from "../constants/token";
 
-
 const UserProfile = () => {
   const [userData, setUserData] = useState(null); // Unified user data
   const [loading, setLoading] = useState(true);
@@ -25,7 +24,7 @@ const UserProfile = () => {
 
         // Fetch user data from API
         const url = `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/TimKiemNguoiDung?MaNhom=GP01&tuKhoa=${localUser.taiKhoan}`;
-        
+
         const response = await axios.get(url, {
           headers: {
             TokenCybersoft: token,
@@ -92,7 +91,7 @@ const UserProfile = () => {
               {userData.maLoaiNguoiDung === "QuanTri" ? "Admin" : "Customer"}
             </p>
           </div>
-  
+
           {/* Booking History
           {userData.thongTinDatVe && userData.thongTinDatVe.length > 0 ? (
             <div className="mt-4">
