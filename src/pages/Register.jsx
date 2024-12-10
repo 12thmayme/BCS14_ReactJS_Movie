@@ -87,6 +87,8 @@ const Register = () => {
   };
 
   return (
+    <body class="d-flex justify-content-center align-items-center vh-100 bg-light">
+
     <div className="register-container">
       <h2 className="register-title">Register Form</h2>
       {error && (
@@ -187,6 +189,7 @@ const Register = () => {
         </button>
       </form>
     </div>
+    </body>
   );
 };
 

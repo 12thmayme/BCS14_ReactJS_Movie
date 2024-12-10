@@ -14,7 +14,6 @@ const Banner = () => {
       const res = await axios.get(url, {
         headers: {
           TokenCybersoft: token,
-          "Content-Type": "application/json",
         },
       });
       setBanners(res.data.content || []);

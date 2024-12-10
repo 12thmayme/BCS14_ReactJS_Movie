@@ -16,7 +16,7 @@ const FormTemplate = () => {
       <main className="flex-grow-1 d-flex justify-content-center align-items-center bg-light">
         <div className="container">
           <div className="row justify-content-center">
-            <div className="col-md-6 col-lg-5">
+            <div className="m-4">
               {/* Outlet renders Login or Register */}
               <Outlet />
             </div>

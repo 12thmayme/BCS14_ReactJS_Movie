@@ -1,6 +1,6 @@
 import React from "react";
 
-const Modal = ({ isVisible, title, content, onClose, navigateHome }) => {
+const Modal = ({ isVisible, title, content, actionText, onClose, onAction }) => {
   if (!isVisible) return null;
 
   return (
@@ -27,27 +27,29 @@ const Modal = ({ isVisible, title, content, onClose, navigateHome }) => {
           padding: "20px",
           width: "400px",
           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-          color: "black"
+          color: "black",
         }}
       >
         <h3 style={{ margin: "0 0 20px" }}>{title}</h3>
         <p>{content}</p>
         <div style={{ textAlign: "right" }}>
-          <button
-            className="btn btn-primary"
-            style={{
-              padding: "10px 20px",
-              borderRadius: "4px",
-              border: "none",
-              backgroundColor: "#d96c2b",
-              color: "#fff",
-              marginRight: "10px",
-              cursor: "pointer",
-            }}
-            onClick={navigateHome}
-          >
-            Go Back Home
-          </button>
+          {onAction && (
+            <button
+              className="btn btn-primary"
+              style={{
+                padding: "10px 20px",
+                borderRadius: "4px",
+                border: "none",
+                backgroundColor: "#d96c2b",
+                color: "#fff",
+                marginRight: "10px",
+                cursor: "pointer",
+              }}
+              onClick={onAction}
+            >
+              {actionText}
+            </button>
+          )}
           <button
             className="btn btn-secondary"
             style={{
