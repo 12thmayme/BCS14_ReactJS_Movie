@@ -55,7 +55,7 @@ const AddShowTime = () => {
       <div className="form-admin_right col-7">
         <form className="form-edit_add" onSubmit={formFormik.handleSubmit}>
           <div className="mb-3">
-            <label className="form-label">ID</label>
+            <label className="form-label">Code Movie</label>
             <input
               className="form-control"
               type="text"

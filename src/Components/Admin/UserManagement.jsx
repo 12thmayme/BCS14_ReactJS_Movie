@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { accessToken, token } from "../../constants/token";
+import { http } from "../../util/setting";
 const UserManagement = () => {
   let [user, setUser] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -89,7 +90,7 @@ const UserManagement = () => {
                         className="btn btn-outline-danger  mx-2"
                         onClick={async () => {
                           if (window.confirm("Bạn có chắc muốn xóa?")) {
-                            let res = await axios.delete(
+                            let res = await http.delete(
                               `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${item.taiKhoan}`,
                               {
                                 headers: {

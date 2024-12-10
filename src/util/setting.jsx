@@ -29,32 +29,32 @@ http.interceptors.response.use(
       case 400:
         {
           alert("Wrong data");
-          navigateHistory.push("/admin");
+          // navigateHistory.push("/admin");
         }
         break;
       case 404:
         {
           alert("Not found");
-          navigateHistory.push("/admin");
+          // navigateHistory.push("/admin");
         }
         break;
       case 401:
         {
           alert("Your token is invalid.");
-          navigateHistory.push("/admin");
+          // navigateHistory.push("/admin");
         }
         break;
       case 403:
         {
           alert("You do not have sufficient access rights.");
-          navigateHistory.push("/");
+          // navigateHistory.push("/");
         }
         break;
 
       case 500:
         {
           alert("error in sever");
-          navigateHistory.push("/admin");
+          // navigateHistory.push("/admin");
         }
         break;
     }

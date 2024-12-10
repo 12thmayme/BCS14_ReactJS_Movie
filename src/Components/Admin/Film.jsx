@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink, Outlet, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import { accessToken, token } from "../../constants/token";
+import { http } from "../../util/setting";
 const Film = () => {
   const [arrMovie, setArrMovie] = useState([]);
   let [search, setSearch] = useSearchParams();
@@ -93,7 +94,7 @@ const Film = () => {
                           className=" btn btn-outline-danger my-2 mx-2"
                           onClick={async () => {
                             if (window.confirm("Bạn có chắc muốn xóa?")) {
-                              let res = await axios.delete(
+                              let res = await http.delete(
                                 `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=${item.maPhim}`,
                                 {
                                   headers: {
