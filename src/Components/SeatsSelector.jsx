@@ -20,7 +20,8 @@ const SeatsSelector = () => {
     actionText: "",
     onAction: () => {},
   });
-  const [confirmationModalVisible, setConfirmationModalVisible] = useState(false);
+  const [confirmationModalVisible, setConfirmationModalVisible] =
+    useState(false);
 
   const renderSeatIcon = (seat) => {
     if (seat.daDat) {
@@ -88,7 +89,10 @@ const SeatsSelector = () => {
     return `${mins}:${secs < 10 ? "0" : ""}${secs}`;
   };
 
-  const totalPrice = selectedSeats.reduce((total, seat) => total + seat.giaVe, 0);
+  const totalPrice = selectedSeats.reduce(
+    (total, seat) => total + seat.giaVe,
+    0
+  );
 
   const confirmOrder = () => {
     setConfirmationModalVisible(true);
@@ -151,7 +155,8 @@ const SeatsSelector = () => {
         title: "Error",
         content: "Booking failed. Please try again.",
         actionText: "Retry",
-        onAction: () => setModalConfig((prev) => ({ ...prev, isVisible: false })),
+        onAction: () =>
+          setModalConfig((prev) => ({ ...prev, isVisible: false })),
       });
     }
   };
@@ -185,14 +190,14 @@ const SeatsSelector = () => {
       </div>
 
       <div className="seat-selector__summary">
-      <h3>Total Price: {totalPrice.toLocaleString()} VND</h3>
+        <h3>Total Price: {totalPrice.toLocaleString()} VND</h3>
 
         {movieInfo && (
           <>
-           <p>
+            <p>
               <strong>Theater:</strong> {movieInfo.tenCumRap}
             </p>
-             <p>
+            <p>
               <strong>Screen:</strong> {movieInfo.tenRap}
             </p>
             <p>
@@ -208,7 +213,8 @@ const SeatsSelector = () => {
         )}
         {selectedSeats.length > 0 && (
           <p>
-            <strong>Selected Seats:</strong> {selectedSeats.map((seat) => seat.tenGhe).join(", ")}
+            <strong>Selected Seats:</strong>{" "}
+            {selectedSeats.map((seat) => seat.tenGhe).join(", ")}
           </p>
         )}
         <button
@@ -219,7 +225,8 @@ const SeatsSelector = () => {
           Proceed to Payment ({selectedSeats.length})
         </button>
         <p>
-          <strong style = {{color: "red"}}>Time Left:</strong> {formatTime(timer)}
+          <strong style={{ color: "red" }}>Time Left:</strong>{" "}
+          {formatTime(timer)}
         </p>
       </div>
 

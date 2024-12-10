@@ -94,7 +94,7 @@ const Film = () => {
                           className=" btn btn-outline-danger my-2 mx-2"
                           onClick={async () => {
                             if (window.confirm("Bạn có chắc muốn xóa?")) {
-                              let res = await http.delete(
+                              let res = await axios.delete(
                                 `https://movienew.cybersoft.edu.vn/api/QuanLyPhim/XoaPhim?MaPhim=${item.maPhim}`,
                                 {
                                   headers: {

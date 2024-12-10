@@ -90,7 +90,7 @@ const UserManagement = () => {
                         className="btn btn-outline-danger  mx-2"
                         onClick={async () => {
                           if (window.confirm("Bạn có chắc muốn xóa?")) {
-                            let res = await http.delete(
+                            let res = await axios.delete(
                               `https://movienew.cybersoft.edu.vn/api/QuanLyNguoiDung/XoaNguoiDung?TaiKhoan=${item.taiKhoan}`,
                               {
                                 headers: {

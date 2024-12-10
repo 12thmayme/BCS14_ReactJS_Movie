@@ -59,7 +59,6 @@ const FormEdit = () => {
       } catch (error) {
         console.error("Error:", error);
         alert("You do not have permission");
-        navigate("/admin/user-management");
       }
     },
   });

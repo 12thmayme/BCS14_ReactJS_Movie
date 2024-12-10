@@ -25,6 +25,7 @@ import AddShowTime from "./Components/Admin/AddShowTime";
 // customBrowsẻHistory
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { navigateHistory } from "./util/setting";
+import Page404 from "./pages/Page404";
 
 const App = () => {
   return (
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/movie-detail/:id" element={<MovieDetailPage />} />
           <Route path="/booking/:id" element={<BookingPage />} />
           <Route path="/home/:scheduleId" element={<SeatSelector />} />
+          <Route path="*" element={<Page404 />}></Route>
         </Route>
 
         {/* User Routes */}
